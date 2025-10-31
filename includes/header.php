@@ -5,22 +5,35 @@ session_start();
 <html>
 <head>
   <meta charset="utf-8">
-  <title>My E-Shop</title>
+  <title>FitSphere</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
   <header>
-    <h1><a href="index.php">My E-Shop</a></h1>
-    <nav>
-      <a href="index.php">Home</a>
-      <a href="cart.php">Cart</a>
-      <?php if(isset($_SESSION['user_id'])): ?>
-        <span>Hi, <?=htmlspecialchars($_SESSION['user_name'])?></span>
-        <a href="logout.php">Logout</a>
-      <?php else: ?>
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
-      <?php endif; ?>
-    </nav>
-  </header>
+        <a href="#" class="logo">RentFit</a>
+
+        <nav>
+            <a href="#">How It Works</a>
+            <a href="#">View Clothing</a>
+            <a href="#">Offers</a>
+            <a href="#">About</a>
+            <a href="#">Cart</a>
+          
+        </nav>
+        
+        <div class="user-auth">
+            <?php if (!empty($name)): ?>
+            <div class="profile-box">
+                <div class="avatar-circle"><?= strtoupper($name[0]); ?></div>
+                <div class="dropdown">
+                    <a href="#">My Account</a>
+                    <a href="logout.php">Logout</a>
+                </div>
+            </div>
+            <?php else: ?>
+            <button type="button" class="Login-btn-model">Login</button>
+            <?php endif; ?>
+        </div>
+
+    </header>
   <main>

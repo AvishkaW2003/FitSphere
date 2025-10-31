@@ -6,7 +6,7 @@ session_start();
 <head>
   <meta charset="utf-8">
   <title>FitSphere</title>
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
   <header>

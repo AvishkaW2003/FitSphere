@@ -24,8 +24,8 @@ header{
 }
 
 header.scrolled {
-  background: rgba(255, 255, 255, 0.15); /* more solid, but still transparent */
-  backdrop-filter: blur(15px);           /* stronger blur */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   transition: all 0.4s ease;
 }
@@ -86,9 +86,9 @@ nav a{
 
 .text_sec {
   position: absolute;
-  top: 50%;                  /* vertically center */
-  left: 8%;                  /* move text from the left edge */
-  transform: translateY(-50%); /* only move up half its height */
+  top: 50%;                 
+  left: 8%;                
+  transform: translateY(-50%); 
   color: white;
   font-size: 2rem;
   font-weight: bold;
@@ -124,18 +124,18 @@ nav a{
 
 .brands {
   display: flex;
-  justify-content: space-evenly; /* evenly distribute logos */
+  justify-content: space-evenly; 
   align-items: center;
-  background-color: #fff; /* optional background */
+  background-color: #fff; 
   padding: 20px 0;
-  overflow-x: auto; /* allows horizontal scroll if screen too small */
-  white-space: nowrap; /* keeps all in one line */
+  overflow-x: auto;
+  white-space: nowrap; 
 }
 
 .brands img {
-  height: 40px; /* smaller logo size */
+  height: 40px;
   width: auto;
-  margin: 0 15px; /* space between logos */
+  margin: 0 15px;
   object-fit: contain;
   filter: grayscale(100%);
   opacity: 0.8;

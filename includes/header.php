@@ -10,7 +10,7 @@ session_start();
 </head>
 <body>
   <header>
-        <a href="#" class="logo">RentFit</a>
+        <a href="#" class="logo">FitSphere</a>
 
         <nav>
             <a href="#">How It Works</a>

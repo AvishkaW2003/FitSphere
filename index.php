@@ -101,7 +101,7 @@ include 'includes/header.php';
     </div>
     
     <a href="#" class="collectionNav">EXPLORE COLLECTION</a>
-    
+
 </div>
 
 

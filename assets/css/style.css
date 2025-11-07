@@ -234,7 +234,7 @@ nav a{
   color: #222;
 }
 
-/* ✅ The container: creates grid layout */
+/*  The container: creates grid layout */
 .wch-container {
   display: grid; /* Key part */
   grid-template-columns: repeat(3, 1fr); /* 3 columns */
@@ -244,7 +244,7 @@ nav a{
   margin: 0 auto; /* center the whole grid */
 }
 
-/* ✅ Each box style */
+/*  Each box style */
 .wch {
   background: #f4ede4;
   padding: 20px;
@@ -260,7 +260,7 @@ nav a{
   color: #333;
 }
 
-/* ✅ Responsive behaviour */
+/*  Responsive behaviour */
 @media (max-width: 900px) {
   .wch-container {
     grid-template-columns: repeat(2, 1fr); /* 2 per row */
@@ -349,3 +349,104 @@ nav a{
   font-weight: bold;
   margin: 20px;
 }
+
+/* Nirmal */
+
+.dashboard-container {
+  position: relative;
+  height: 100vh;
+  background: url('../../assets/images/uploads/Suits.webp') no-repeat center center/cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.welcome-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+/* Base card style */
+.stat-card {
+  color: white;
+  border: none;
+  border-radius: 10px;
+  backdrop-filter: blur(4px); /* slight glassy effect */
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+}   
+
+/* Transparent color variants */
+.stat-card.green {
+  background-color: rgba(40, 167, 70, 0.4); 
+}
+
+.stat-card.blue {
+  background-color: rgba(0, 123, 255, 0.4); 
+}
+
+.stat-card.red {
+  background-color: rgba(236, 30, 51, 0.4); 
+}
+
+.stat-card.pink {   
+  background-color: rgba(232, 62, 140, 0.4); 
+}
+
+.stat-card {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.welcome-text{
+    font-size: 4rem;
+}
+
+/* charts */
+.chart-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  }
+
+  .legend-box{
+    flex: 1;
+    padding-right: 15px;
+  }
+  
+  .chart-wrapper{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  #myChart2{
+    max-width: 230px;
+    max-height: 230px;
+  }
+
+  .category-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    font-size: 15px;
+  }
+
+  .color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+

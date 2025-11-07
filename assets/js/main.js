@@ -1,41 +1,27 @@
-// ===== BAR CHART =====
-const ctx1 = document.getElementById('myChart1').getContext('2d');
-new Chart(ctx1, {
-  type: 'bar',
-  data: {
-    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    datasets: [{
-      data: [120000, 30000, 175000, 160000, 120000, 85000, 95000, 140000, 100000, 90000, 105000, 60000],
-      backgroundColor: 'rgba(30, 144, 255, 0.8)',
-      borderRadius: 6
-    }]
-  },
-  options: {
-    plugins: { legend: { display: false } },
-    scales: {
-      y: { beginAtZero: true, ticks: { color: '#333' } },
-      x: { ticks: { color: '#333' } }
-    }
+const navbar = document.querySelector(".navbar");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add("scrolled");
+  } else {
+    navbar.classList.remove("scrolled");
   }
 });
 
-// ===== DOUGHNUT CHART =====
-const ctx2 = document.getElementById('myChart2').getContext('2d');
-new Chart(ctx2, {
-  type: 'doughnut',
-  data: {
-    labels: ['Wedding', 'Nilame', 'Business', 'Indian', 'Dinner'],
-    datasets: [{
-      data: [40, 25, 15, 10, 10],
-      backgroundColor: ['red','orange','limegreen','dodgerblue','magenta'],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    cutout: '65%',
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true }
+// Function to check if an element is visible in viewport
+function isInViewport(element) {
+  const rect = element.getBoundingClientRect();
+  return rect.top < window.innerHeight - 100 && rect.bottom > 0;
+}
+
+// Select all .wch elements
+const boxes = document.querySelectorAll('.wch');
+
+// Scroll event listener
+window.addEventListener('scroll', () => {
+  boxes.forEach(box => {
+    if (isInViewport(box)) {
+      box.classList.add('visible');
     }
-  }
+  });
 });

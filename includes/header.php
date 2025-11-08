@@ -19,7 +19,7 @@ session_start();
 
         <nav>
             <a href="#">How It Works</a>
-            <a href="#">View Clothing</a>
+            <a href="collection.php">View Clothing</a>
             <a href="#">Offers</a>
             <a href="about.php">About</a>
             <a href="#">Cart</a>

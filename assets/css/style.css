@@ -4,7 +4,7 @@
     box-sizing: border-box;
     font-family: 'lato';
 }
-
+/* header */
 header{
     position: fixed;
     top: 0;
@@ -30,21 +30,74 @@ header.scrolled {
   transition: all 0.4s ease;
 }
 
-
 .logo{
-    font-size: 30px;
+    font-size: 25px;
     color: #fff;
     text-decoration: none;
     font-weight: 700;
     margin-right: auto;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.logo :hover{
+    color: #D4AF37; /* gold */
+}
+
+.logopng {
+  text-decoration: none;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.logo-image {
+  height: 100px;
+  width: auto;
+  display: inline-block;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.logo-image:hover {
+  transform: rotate(-5deg) scale(1.1);
+  filter: brightness(1.3) drop-shadow(0 0 8px #D4AF37);
 }
 
 nav a{
     color: #fff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
+    position: relative;
+    transition: color 0.3s ease;
 }
+
+nav a:hover {
+  color: #D4AF37; /* gold */
+}
+
+.btn-add-admin {
+  background-color: #D4AF37;       
+  color: #000;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 6px 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add-admin:hover {
+  background-color: #ffffff;       
+}
+
+.btn-add-admin:active {
+  background-color: #a58226;        
+  transform: scale(0.97);
+}
+/* header */
+
+
 
 .user-auth{
     margin-left: 40px;

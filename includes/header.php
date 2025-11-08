@@ -3,16 +3,20 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 ?>
-
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>FitSphere</title>
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 <body>
-  <header>
+    <header>
+        <a href="#" class="logopng">
+            <img src="../assets/images/FitSphere.png" alt="FitSphere Logo" class="logo-image">
+        </a>
+
         <a href="#" class="logo">FitSphere</a>
 
         <nav>
@@ -34,7 +38,8 @@ if (session_status() === PHP_SESSION_NONE) {
                 </div>
             </div>
             <?php else: ?>
-            <button type="button" class="Login-btn-model">Login</button>
+            
+            <button type="button" class="Login-btn-model" onclick="window.location.href='FitSphere/login.php'">Login</button>
             <?php endif; ?>
         </div>
 

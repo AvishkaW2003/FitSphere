@@ -1,9 +1,4 @@
 <?php
-<<<<<<< HEAD
-
-
-?><!DOCTYPE html>           
-=======
 include 'includes/header.php';
 ?>
 <div class="section">
@@ -111,4 +106,3 @@ include 'includes/header.php';
 
 
 <?php include 'includes/footer.php'; ?>
->>>>>>> main

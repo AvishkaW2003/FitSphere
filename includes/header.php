@@ -6,17 +6,22 @@ session_start();
 <head>
   <meta charset="utf-8">
   <title>FitSphere</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/udith.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
   <header>
-        <a href="#" class="logo">FitSphere</a>
+        <a href="index.php" class="logo">FitSphere</a>
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="menu-icon"><i class="fa fa-bars"></i></label>
 
         <nav>
             <a href="#">How It Works</a>
             <a href="#">View Clothing</a>
             <a href="#">Offers</a>
-            <a href="#">About</a>
+            <a href="about.php">About</a>
             <a href="#">Cart</a>
           
         </nav>

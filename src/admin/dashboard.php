@@ -1,7 +1,13 @@
 <?php 
   session_start(); 
+  $name = $_SESSION['username'] ?? ''; // or however you store the logged-in user’s name
+  include '../../includes/headerAdmin.php'; // adjust path to your structure
 ?>
+<?php
+require_once __DIR__ . '/../../includes/auth/auth_admin.php';
 
+$user = Auth::user();
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,18 +17,11 @@
     <title>Admin Dashboard</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    
+    <link rel="stylesheet" href="../../assets/css/dashboard.css">
 </head>
-
-<?php
-$name = $_SESSION['username'] ?? ''; // or however you store the logged-in user’s name
-include '../../includes/header.php'; // adjust path to your structure
-?>
 
 <body>
     
-
     <div class="dashboard-container">
         <div class="overlay">
             <h1 class="welcome-text text-center text-light">
@@ -120,7 +119,8 @@ include '../../includes/header.php'; // adjust path to your structure
               <tr><td>115</td><td>Dinner Suit</td><td>Oct 15</td><td>Oct 20</td><td>Active</td></tr>
             </tbody>
           </table>
-          <p class="text-end text-muted small mb-0">See more →</p>
+          <a href="#" class="text-end text-muted small mb-0 ">See more →</a>
+          
         </div>
       </div>
 
@@ -131,6 +131,7 @@ include '../../includes/header.php'; // adjust path to your structure
 
 <!-- 1️⃣ Load Chart.js FIRST -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../assets/js/main.js"></script>

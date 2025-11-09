@@ -11,7 +11,7 @@
 p{
     font-family: "Roboto", sans-serif;
 }
-
+/* header */
 header{
     position: fixed;
     top: 0;
@@ -37,21 +37,74 @@ header.scrolled {
   transition: all 0.4s ease;
 }
 
-
 .logo{
-    font-size: 30px;
+    font-size: 25px;
     color: #fff;
     text-decoration: none;
     font-weight: 700;
     margin-right: auto;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.logo :hover{
+    color: #D4AF37; /* gold */
+}
+
+.logopng {
+  text-decoration: none;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.logo-image {
+  height: 100px;
+  width: auto;
+  display: inline-block;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.logo-image:hover {
+  transform: rotate(-5deg) scale(1.1);
+  filter: brightness(1.3) drop-shadow(0 0 8px #D4AF37);
 }
 
 nav a{
     color: #fff;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
+    position: relative;
+    transition: color 0.3s ease;
 }
+
+nav a:hover {
+  color: #D4AF37; /* gold */
+}
+
+.btn-add-admin {
+  background-color: #D4AF37;       
+  color: #000;
+  border: none;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 6px 14px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add-admin:hover {
+  background-color: #ffffff;       
+}
+
+.btn-add-admin:active {
+  background-color: #a58226;        
+  transform: scale(0.97);
+}
+/* header */
+
+
 
 .user-auth{
     margin-left: 40px;
@@ -411,91 +464,7 @@ nav a{
   margin: 20px;
 }
 
-/* Nirmal */
 
-.dashboard-container {
-  position: relative;
-  height: 100vh;
-  background: url('../../assets/images/uploads/Suits.webp') no-repeat center center/cover;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6); 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.welcome-text {
-  font-size: 2.5rem;
-  font-weight: 700;
-}
-/* Base card style */
-.stat-card {
-  color: white;
-  border: none;
-  border-radius: 10px;
-  backdrop-filter: blur(4px); /* slight glassy effect */
-  transition: transform 0.2s ease;
-}
-
-.stat-card:hover {
-  transform: scale(1.05);
-}   
-
-/* Transparent color variants */
-.stat-card.green {
-  background-color: rgba(40, 167, 70, 0.4); 
-}
-
-.stat-card.blue {
-  background-color: rgba(0, 123, 255, 0.4); 
-}
-
-.stat-card.red {
-  background-color: rgba(236, 30, 51, 0.4); 
-}
-
-.stat-card.pink {   
-  background-color: rgba(232, 62, 140, 0.4); 
-}
-
-.stat-card {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.welcome-text{
-    font-size: 4rem;
-}
-
-/* charts */
-.chart-section{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  }
-
-  .legend-box{
-    flex: 1;
-    padding-right: 15px;
-  }
-  
-  .chart-wrapper{
-    flex: 1;
-    display: flex;
-    justify-content: center;
-  }
-
-  #myChart2{
-    max-width: 230px;
-    max-height: 230px;
-  }
 
   .category-box {
     display: flex;
@@ -511,3 +480,4 @@ nav a{
     margin-right: 8px;
   }
   
+

@@ -32,7 +32,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <a href="#" class="logo">FitSphere</a>
 
         <nav>
-            <a href="#">How It Works</a>
+            <a href="HowItWorks.php">How It Works</a>
             <a href="collection.php">View Clothing</a>
             <a href="#">Offers</a>
             <a href="about.php">About</a>

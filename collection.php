@@ -16,7 +16,7 @@
                 <img src="assets/images/suits/b01.webp" alt="Business Suits 01">
                 <h3>Single-Breasted Suit</h3>
                 <p>Rs2500.00</p>
-                <a href="#">Rent Now</a>
+                <a href="rentNow.php">Rent Now</a>
             </div>
 
             <div class="col">
@@ -235,44 +235,7 @@
             <a href="#">See more ➜ </a>
         </div>
     </div>
-
-    <div class="collection">
-        <h2>Business Suits</h2>
-        
-        <div class="collection01">
-            <div class="col">
-                <img src="assets/images/suits/Polished Business Look.jpg" alt="Business Suits 01">
-                <h3>Single-Breasted Suit</h3>
-                <p>Rs2500.00</p>
-                <a href="#">Rent Now</a>
-            </div>
-
-            <div class="col">
-                <img src="assets/images/suits/Polished Business Look.jpg" alt="Business Suits 01">
-                <h3>Double-Breasted Suit</h3>
-                <p>Rs2500.00</p>
-                <a href="#">Rent Now</a>
-            </div>
-
-            <div class="col">
-                <img src="assets/images/suits/Polished Business Look.jpg" alt="Business Suits 01">
-                <h3>Three-Piece Suit</h3>
-                <p>Rs2500.00</p>
-                <a href="#">Rent Now</a>
-            </div>
-
-            <div class="col">
-                <img src="assets/images/suits/Polished Business Look.jpg" alt="Business Suits 01">
-                <h3>Slim-Fit Suit</h3>
-                <p>Rs2500.00</p>
-                <a href="#">Rent Now</a>
-            </div>
-        </div>
-
-        <div class="explore">
-            <a href="#">See more ➜ </a>
-        </div>
-    </div>
+    
 
     <?php include 'includes/footer.php'; ?>
 </body>

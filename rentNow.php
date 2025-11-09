@@ -102,6 +102,7 @@
                 <td>Regular Fit</td>
             </tr>
 
+            
             <tr>
                 <td>XL</td>
                 <td>42"-44"</td>

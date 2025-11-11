@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/functions.php'; // Load DB + Auth + Session
+require_once __DIR__ . '/includes/functions.php'; // Load DB + Auth + Session
 
 use FitSphere\Core\Session;
 use FitSphere\Database\Database;

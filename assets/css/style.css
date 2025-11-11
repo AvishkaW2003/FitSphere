@@ -89,6 +89,10 @@ nav a:hover {
   border: none;
   font-weight: 600;
   text-decoration: none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;               
+  line-height:1;
   border-radius: 5px;
   padding: 6px 14px;
   transition: background-color 0.3s ease, transform 0.2s ease;

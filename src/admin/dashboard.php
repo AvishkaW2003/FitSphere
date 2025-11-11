@@ -1,12 +1,10 @@
 <?php 
-  session_start(); 
-  $name = $_SESSION['username'] ?? ''; // or however you store the logged-in user’s name
-  include '../../includes/headerAdmin.php'; // adjust path to your structure
-?>
-<?php
-require_once __DIR__ . '/../../includes/auth/auth_admin.php';
+  include $_SERVER['DOCUMENT_ROOT'] . '/FitSphere/includes/headerAdmin.php';
 
-$user = Auth::user();
+
+  require_once __DIR__ . '/../../includes/auth/auth_admin.php';
+
+  $user = Auth::user();
 ?>
 
 <!DOCTYPE html>

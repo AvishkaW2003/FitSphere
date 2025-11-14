@@ -18,7 +18,9 @@ $baseUrl = "/FitSphere/";
 </head>
 
 <body>
+  
   <header>
+    
     <a href="<?= $baseUrl ?>src/admin/dashboard.php" class="logopng">
       <img src="<?= $baseUrl ?>assets/images/White Logo.png" alt="FitSphere Logo" class="logo-image" style="height: 60px;">
     </a>
@@ -33,15 +35,19 @@ $baseUrl = "/FitSphere/";
       <a href="<?= $baseUrl ?>src/admin/settings.php" class="navText">Settings</a>
     </nav>
 
-    <div class="d-flex align-items-center gap-3" style="margin-left: 4rem; align-items: center; justify-content: center;">
-        <a href="<?= $baseUrl ?>src/admin/admin_Management/add_admin.php" class="btn-add-admin btn-sm fw-semibold">
+    <div class="d-flex align-items-center gap-3" style="margin-left: 4rem;">
+        <a href="<?= $baseUrl ?>src/admin/admin_Management/manage_admin.php" class="btn-add-admin btn-sm fw-semibold">
             + Admin
         </a>
-
-        <a href="#" class="profilepng">
+    </div>
+    <div class="d-flex align-items-center gap-3" style="margin-left: 2rem;">
+          <a href="<?= $baseUrl ?>src/admin/profile.php" class="profilepng">
           <img src="<?= $baseUrl ?>assets/images/account.png" alt="Profile Icon" class="logo-image" style="height: 40px; margin-left: 5px;">
         </a>
     </div>
+
+        
+    
   </header>
 
   <main>

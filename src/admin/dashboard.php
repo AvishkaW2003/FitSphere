@@ -127,7 +127,7 @@
 
 
 
-<!-- 1️⃣ Load Chart.js FIRST -->
+<!-- Load Chart.js FIRST -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 

@@ -24,7 +24,7 @@
                 <div class="option">
                     <label>Quantity:</label>
                     <button class="qty-btn" id="decrease">-</button>
-                    <input type="number" id="quantity" value="1" min="1" readonly>
+                    <input type="number" id="quantity" value="1" min="1">
                     <button class="qty-btn" id="increase">+</button>
                 </div>
 
@@ -61,7 +61,13 @@
             </div>
 
             <div class="rent-buttons">
-                <a href="#" class="add-cart">Add to Cart <i class="fa fa-shopping-cart"></i></a>
+                <!-- Add to Cart button -->
+                <a 
+                    href="add_to_cart.php?id=101&name=Classic%20Charcoal%20Executive%20Suit&price=4500&qty=1&image=b01.webp" 
+                    class="add-cart">
+                    Add to Cart <i class="fa fa-shopping-cart"></i>
+                </a>
+
                 <a href="#" class="confirm">Confirm</a>
                 <a href="collection.php" class="cancel">Cancel</a>
             </div>
@@ -126,6 +132,21 @@
     <?php include 'includes/footer.php'; ?>
 
     <script src="assets/js/rent.js"></script>
+
+    <script>
+    const addCartBtn = document.getElementById('addCartBtn');
+    const quantityInput = document.getElementById('quantity');
+
+    addCartBtn.addEventListener('click', function(e){
+        e.preventDefault(); // prevent default link behavior
+        let qty = quantityInput.value; // get current quantity
+        // Build dynamic URL for add_to_cart.php
+        let url = `add_to_cart.php?id=101&name=Classic%20Charcoal%20Executive%20Suit&price=4500&qty=${qty}&image=b01.webp`;
+        // Redirect to add_to_cart.php
+        window.location.href = url;
+    });
+    </script>
+
 
 </body>
 </html>

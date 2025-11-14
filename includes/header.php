@@ -23,7 +23,7 @@ session_start();
             <a href="collection.php">View Clothing</a>
             <a href="offers.php">Offers</a>
             <a href="about.php">About</a>
-            <a href="#">Cart</a>
+            <a href="cart.php">Cart</a>
           
         </nav>
         

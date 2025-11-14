@@ -73,7 +73,7 @@
   <div class="cta">
     <h2>Ready to Rent Your Next Look?</h2>
     <p>Browse our collection today and experience the new way to dress smart, sustainable, and stress-free.</p>
-    <a href="viewclothing.php" class="btn">Start Browsing</a>
+    <a href="collection.php" class="btn">Start Browsing</a>
   </div>
 
 </section>

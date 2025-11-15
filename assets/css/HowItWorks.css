@@ -1,0 +1,131 @@
+/* 🌟 HOW IT WORKS PAGE */
+.how-it-works-page {
+  padding: 100px 40px;
+  background-color: #fff;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Intro section */
+.how-it-works-page .intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 60px;
+}
+
+.how-it-works-page .intro h1 {
+    text-align: center;
+    position: relative;              /*  Needed for ::after to work */
+    display: inline-block;           /* Makes the underline fit the text */
+    margin-bottom: 60px;
+    font-size: 2.4rem;
+    color: #222;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.how-it-works-page .intro h1::after{
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #ffaf7b, #d76d77, #3a1c71);
+}
+
+.how-it-works-page .intro p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Step container */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Each step */
+.step {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.step.reverse {
+  flex-direction: row-reverse;
+}
+
+/* Step image */
+.step img {
+  width: 50%;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+/* Step text */
+.step .text {
+  flex: 1;
+}
+
+.step .text h2 {
+  font-size: 1.8rem;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.step .text p {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.7;
+}
+
+/* CTA section */
+.cta {
+  text-align: center;
+  margin-top: 100px;
+}
+
+.cta h2 {
+  font-size: 2rem;
+  color: #111;
+}
+
+.cta p {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.cta .btn {
+  background: linear-gradient(90deg, #ffaf7b, #d76d77, #3a1c71);
+  color: #fff;
+  padding: 14px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.cta .btn:hover {
+  background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
+}
+
+/* Responsive layout */
+@media (max-width: 900px) {
+  .step {
+    flex-direction: column;
+  }
+  .step.reverse {
+    flex-direction: column;
+  }
+  .step img {
+    width: 100%;
+  }
+}

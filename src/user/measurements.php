@@ -246,7 +246,13 @@ AuthMiddleware::requireRole('user');
 </head>
 <body>
     <?php
-    include 'db.php'; // Include database connection
+    require_once __DIR__ . '/../../includes/db.php';
+
+    use FitSphere\Database\Database;
+
+    // Create database connection
+    $database = new Database();
+    $conn = $database->connect();
 
     // Handle form submission
     $message = '';
@@ -266,34 +272,38 @@ AuthMiddleware::requireRole('user');
 
         // Insert or update measurements
         $sql = "INSERT INTO measurements (customer_id, size, neck, chest, waist, hips, sleeve, thigh, inseam, jacket_length, pant_length, updated_at)
-                VALUES (1, 'M', ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                VALUES (1, 'M', :neck, :chest, :waist, :hips, :sleeve, :thigh, :inseam, :jacket_length, :pant_length, NOW())
                 ON DUPLICATE KEY UPDATE
                 neck = VALUES(neck), chest = VALUES(chest), waist = VALUES(waist), hips = VALUES(hips),
                 sleeve = VALUES(sleeve), thigh = VALUES(thigh), inseam = VALUES(inseam),
                 jacket_length = VALUES(jacket_length), pant_length = VALUES(pant_length), updated_at = NOW()";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ddddddddd",
-            $measurements['neck'], $measurements['chest'], $measurements['waist'], $measurements['hips'],
-            $measurements['sleeve'], $measurements['thigh'], $measurements['inseam'],
-            $measurements['jacket_length'], $measurements['pant_length']
-        );
+        $stmt->execute([
+            ':neck' => $measurements['neck'],
+            ':chest' => $measurements['chest'],
+            ':waist' => $measurements['waist'],
+            ':hips' => $measurements['hips'],
+            ':sleeve' => $measurements['sleeve'],
+            ':thigh' => $measurements['thigh'],
+            ':inseam' => $measurements['inseam'],
+            ':jacket_length' => $measurements['jacket_length'],
+            ':pant_length' => $measurements['pant_length']
+        ]);
 
-        if ($stmt->execute()) {
+        if ($stmt->rowCount() > 0) {
             $message = "Your measurements have been saved successfully!";
         } else {
-            $message = "Error saving measurements: " . $conn->error;
+            $message = "Error saving measurements: " . implode(", ", $stmt->errorInfo());
         }
-        $stmt->close();
     }
 
     // Fetch existing measurements
     $existing_measurements = null;
     $sql = "SELECT * FROM measurements WHERE customer_id = 1 ORDER BY updated_at DESC LIMIT 1";
-    $result = $conn->query($sql);
-    if ($result && $result->num_rows > 0) {
-        $existing_measurements = $result->fetch_assoc();
-    }
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $existing_measurements = $stmt->fetch(PDO::FETCH_ASSOC);
     ?>
 
     <div class="container">

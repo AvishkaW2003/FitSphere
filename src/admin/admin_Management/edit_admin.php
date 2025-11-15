@@ -40,6 +40,7 @@ if (isset($_GET['id'])) {
 <body>
   <div class="admin-container">
     <h2 class="text-center my-4">Edit Admin</h2>
+    
     <div class="form-card">
       <form method="POST">
         <div class="mb-3">

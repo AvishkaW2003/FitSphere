@@ -48,8 +48,8 @@
 
   </div>
 
-  <table class="table table-bordered table-hover text-center align-middle">
-    <thead class="table-warning">
+  <table>
+    <thead style="background-color: #d4af37ff;">
       <tr>
         <th>ID</th>
         <th>Name</th>

@@ -70,37 +70,37 @@ include 'includes/header.php';
     <div class="cat001">
         <div class="cat01">
         <img src="assets/images/suits/Polished Business Look.jpg" alt="Business_suit"><br>
-        <a href="#" class="cat">Business Suits</a>
+        <a href="collection.php#Business_suit" class="cat">Business Suits</a>
         <p>Formal and professional suits ideal for office, meetings, and corporate events.</p>
     </div>
     <div class="cat01">
         <img src="assets/images/suits/Black Slim-Fit Tuxedo 3-Piece.jpg" alt="Business_suit"><br>
-        <a href="#" class="cat">Dinner Suits</a>
+        <a href="collection.php#Dinner_suit" class="cat">Dinner Suits</a>
         <p>Elegant evening wear with satin details, perfect for black-tie events and formal dinners.</p>
     </div>
     <div class="cat01">
         <img src="assets/images/suits/Venue decorations wedding trends for a….jpg" alt="Business_suit"><br>
-        <a href="#" class="cat">Wedding Suits</a>
+        <a href="collection.php#Wedding_Suits" class="cat">Wedding Suits</a>
         <p>Stylish and special suits designed for grooms and wedding ceremonies.</p>
     </div>
     <div class="cat01">
         <img src="assets/images/suits/hon-1.jpg" alt="Business_suit"><br>
-        <a href="#" class="cat">Nilame Suits</a>
+        <a href="collection.php#Nilame_Suits" class="cat">Nilame Suits</a>
         <p>Traditional Sri Lankan ceremonial attire inspired by Kandyan royalty.</p>
     </div>
     <div class="cat01">
         <img src="assets/images/suits/Indian suit.webp" alt="Business_suit"><br>
-        <a href="#" class="cat">Indian Suits</a>
+        <a href="collection.php#Indian_Suits" class="cat">Indian Suits</a>
         <p>Opulent, embroidered Sherwanis and Bandhgalas for stunning wedding and celebratory looks</p>
     </div>
     <div class="cat01">
         <img src="assets/images/suits/blazer.jpg" alt="Business_suit"><br>
-        <a href="#" class="cat">Blazers</a>
+        <a href="collection.php#Blazers" class="cat">Blazers</a>
         <p>Formal and professional Blazers ideal for office, meetings, and corporate events.</p>
     </div>
     </div>
     
-    <a href="#" class="collectionNav">EXPLORE COLLECTION</a>
+    <a href="collection.php" class="collectionNav">EXPLORE COLLECTION</a>
 
 </div>
 

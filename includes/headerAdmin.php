@@ -30,8 +30,9 @@ $baseUrl = "/FitSphere/";
     <nav>
       <a href="<?= $baseUrl ?>src/admin/dashboard.php" class="navText">Dashboard</a>
       <a href="<?= $baseUrl ?>src/admin/product_Management/manage_products.php" class="navText">Products</a>
-      <a href="<?= $baseUrl ?>src/admin/manage_bookings.php" class="navText">Bookings</a>
+      <a href="<?= $baseUrl ?>src/admin/bookings_Management/manage_bookings.php" class="navText">Bookings</a>
       <a href="<?= $baseUrl ?>src/admin/manage_users.php" class="navText">Users</a>
+      <a href="<?= $baseUrl ?>src/admin/" class="navText">Payments</a>
       <a href="<?= $baseUrl ?>src/admin/settings.php" class="navText">Settings</a>
     </nav>
 
@@ -45,9 +46,5 @@ $baseUrl = "/FitSphere/";
           <img src="<?= $baseUrl ?>assets/images/account.png" alt="Profile Icon" class="logo-image" style="height: 40px; margin-left: 5px;">
         </a>
     </div>
-
-        
-    
   </header>
-
   <main>

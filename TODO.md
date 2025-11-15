@@ -1,5 +1,0 @@
-- [ ] Remove duplicate include of db.php in measurements.php
-- [ ] Add use statement for Database class
-- [ ] Instantiate Database and get PDO connection
-- [ ] Convert mysqli code to PDO syntax
-- [ ] Test the connection and functionality

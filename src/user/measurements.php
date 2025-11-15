@@ -30,8 +30,8 @@ AuthMiddleware::requireRole('user');
             background: white;
             border-radius: 12px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            padding: 40px;
-            width: 900px;
+            padding: 30px;
+            width: 800px;
         }
 
         .header {
@@ -67,7 +67,7 @@ AuthMiddleware::requireRole('user');
 
         .size-section h2:before {
             content: "•";
-            color: #6c5ce7;
+            color: #FCB800;
             font-size: 24px;
             margin-right: 10px;
         }
@@ -89,14 +89,14 @@ AuthMiddleware::requireRole('user');
         }
 
         .size-option:hover {
-            border-color: #6c5ce7;
-            color: #6c5ce7;
+            border-color: #FCB800;
+            color: #FCB800;
         }
 
         .size-option.active {
-            background: #6c5ce7;
+            background: #FCB800;
             color: white;
-            border-color: #6c5ce7;
+            border-color: #FCB800;
         }
 
         .measurements-section {
@@ -113,7 +113,7 @@ AuthMiddleware::requireRole('user');
 
         .measurements-section h2:before {
             content: "•";
-            color: #6c5ce7;
+            color: #FCB800;
             font-size: 24px;
             margin-right: 10px;
         }
@@ -121,7 +121,7 @@ AuthMiddleware::requireRole('user');
         .measurements-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
         }
 
         .form-group {
@@ -132,14 +132,14 @@ AuthMiddleware::requireRole('user');
         .form-row {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .form-label {
-            width: 140px;
+            width: 120px;
             font-weight: 500;
             color: #2d3436;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .input-wrapper {
@@ -154,7 +154,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .input-wrapper:focus-within {
-            border-color: #6c5ce7;
+            border-color: #FCB800;
         }
 
         .measurement-input {
@@ -174,7 +174,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .save-btn {
-            background: #6c5ce7;
+            background: #FCB800;
             color: white;
             border: none;
             padding: 15px 40px;
@@ -189,7 +189,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .save-btn:hover {
-            background: #5b4bc4;
+            background: #FCB800;
         }
 
         .message {
@@ -224,7 +224,7 @@ AuthMiddleware::requireRole('user');
 
         .current-measurements h2:before {
             content: "•";
-            color: #6c5ce7;
+            color: #FCB800;
             font-size: 24px;
             margin-right: 10px;
         }

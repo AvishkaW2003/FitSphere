@@ -1,22 +1,43 @@
 <?php
 session_start();
+include 'db.php';
 
-if(empty($_SESSION['cart'])){
-    echo "<h2>Your cart is empty!</h2>";
-    echo '<a href="collection.php">Go back shopping</a>';
-    exit;
+if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
+    die("Your cart is empty.");
 }
 
-// Calculate total
-$total = 0;
-foreach($_SESSION['cart'] as $item){
-    $total += $item['price'] * $item['qty'];
+$cart = $_SESSION['cart'];
+
+// Replace with logged-in user
+$customer_id = 1;
+
+$deposit = 2000; // or calculate from settings
+$status = 'Active';
+
+// Loop through cart items and create booking for each
+foreach ($cart as $item) {
+    $product_id = $item['id'];
+    $qty = $item['qty'];
+    $price_total = $item['price'] * $qty; // <-- multiply by quantity
+    $start_date = $item['start_date'];
+    $end_date = $item['end_date'];
+
+    $conn->query("
+        INSERT INTO bookings (customer_id, product_id, start_date, end_date, total_price, deposit, status, created_at)
+        VALUES ('$customer_id', '$product_id', '$start_date', '$end_date', '$price_total', '$deposit', '$status', NOW())
+    ");
+
+    $booking_id = $conn->insert_id;
+
+    // Insert payment
+    $conn->query("
+        INSERT INTO payments (booking_id, rent_fee, deposit, late_fee, refund_amount, status, processed_by, created_at)
+        VALUES ('$booking_id', '$price_total', '$deposit', 0, 0, 'Pending', '$customer_id', NOW())
+    ");
 }
-$total += 500; // delivery
 
-// Clear the cart
-$_SESSION['cart'] = [];
+// Clear session cart
+unset($_SESSION['cart']);
 
-echo "<h2>Thank you for your purchase!</h2>";
-echo "<p>Total paid: Rs $total</p>";
-echo '<a href="collection.php">Continue Shopping</a>';
+echo "Checkout Completed Successfully!";
+?>

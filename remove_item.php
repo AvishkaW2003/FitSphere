@@ -1,12 +1,13 @@
 <?php
 session_start();
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    if(isset($_SESSION['cart'][$id])){
-        unset($_SESSION['cart'][$id]);
-    }
+// Get key
+$key = $_GET['key'] ?? null;
+
+if ($key && isset($_SESSION['cart'][$key])) {
+    unset($_SESSION['cart'][$key]);
 }
 
-header('Location: cart.php');
-exit;
+// Redirect back to cart
+header("Location: cart.php");
+exit();

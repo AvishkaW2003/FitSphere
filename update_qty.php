@@ -1,18 +1,20 @@
 <?php
 session_start();
 
-if(isset($_POST['id'], $_POST['action'])){
-    $id = $_POST['id'];
-    $action = $_POST['action'];
+// Get key and action
+$key = $_GET['key'] ?? null;
+$action = $_GET['action'] ?? null;
 
-    if(isset($_SESSION['cart'][$id])){
-        if($action === 'plus'){
-            $_SESSION['cart'][$id]['qty'] += 1;
-        } elseif($action === 'minus' && $_SESSION['cart'][$id]['qty'] > 1){
-            $_SESSION['cart'][$id]['qty'] -= 1;
+if ($key && isset($_SESSION['cart'][$key])) {
+    if ($action === 'plus') {
+        $_SESSION['cart'][$key]['qty']++;
+    } elseif ($action === 'minus') {
+        if ($_SESSION['cart'][$key]['qty'] > 1) {
+            $_SESSION['cart'][$key]['qty']--;
         }
     }
 }
 
-header('Location: cart.php');
-exit;
+// Redirect back to cart
+header("Location: cart.php");
+exit();

@@ -1,3 +1,7 @@
+<?php
+include 'includes/header.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,30 +11,36 @@
     <link rel="stylesheet" href="assets/css/RentNow.css">
 </head>
 <body>
-    <?php include 'includes/header.php'; ?>
 
-    <div class="rent-page">
+
+<div class="rent-page">
     <div class="rent-container">
         
         <div class="rent-image">
             <img src="assets/images/suits/b01.webp" alt="Classic Charcoal Executive Suit">
         </div>
 
-    
         <div class="rent-details">
             <h2>Classic Charcoal Executive Suit</h2>
+            <p class="description">
+                Step into sophistication with this timeless charcoal three-piece suit. 
+                Tailored for comfort and elegance, perfect for corporate events, weddings, and formal gatherings.
+            </p>
 
-            <div class="rent-options">
+            <form action="add_to_cart.php" method="GET">
+                <input type="hidden" name="id" value="101">
+                <input type="hidden" name="name" value="Classic Charcoal Executive Suit">
+                <input type="hidden" name="price" value="4500">
+                <input type="hidden" name="image" value="b01.webp">
+
                 <div class="option">
                     <label>Quantity:</label>
-                    <button class="qty-btn" id="decrease">-</button>
-                    <input type="number" id="quantity" value="1" min="1">
-                    <button class="qty-btn" id="increase">+</button>
+                    <input type="number" name="qty" value="1" min="1">
                 </div>
 
                 <div class="option">
                     <label>Size:</label>
-                    <select>
+                    <select name="size">
                         <option>S</option>
                         <option>M</option>
                         <option>L</option>
@@ -41,112 +51,22 @@
 
                 <div class="option">
                     <label>Start Date:</label>
-                    <input type="date">
+                    <input type="date" name="start_date" required>
                 </div>
 
                 <div class="option">
                     <label>End Date:</label>
-                    <input type="date">
+                    <input type="date" name="end_date" required>
                 </div>
 
-                <div class="option">
-                    <label>Deposit:</label>
-                    <span class="price">Rs. 2000.00</span>
-                </div>
+                <button type="submit" class="add-cart">Add to Cart</button>
+            </form>
 
-                <div class="option">
-                    <label>Total Price:</label>
-                    <span class="price">Rs. 4500.00</span>
-                </div>
-            </div>
-
-            <div class="rent-buttons">
-                <!-- Add to Cart button -->
-                <a 
-                    href="add_to_cart.php?id=101&name=Classic%20Charcoal%20Executive%20Suit&price=4500&qty=1&image=b01.webp" 
-                    class="add-cart">
-                    Add to Cart <i class="fa fa-shopping-cart"></i>
-                </a>
-
-                <a href="#" class="confirm">Confirm</a>
-                <a href="collection.php" class="cancel">Cancel</a>
-            </div>
-
-            <p class="description">
-                Step into sophistication with this timeless charcoal three-piece suit. 
-                Tailored for comfort and elegance, it’s the perfect choice for corporate events, weddings, and formal gatherings.
-            </p>
+            <a href="collection.php" class="cancel">Cancel</a>
         </div>
     </div>
+</div>
 
-
-    <div class="size-chart">
-        <h3>Size Chart</h3>
-        <table>
-            <tr>
-                <th>Size</th>
-                <th>Chest</th>
-                <th>Waist</th>
-                <th>Hip</th>
-                <th>Height</th>
-                <th>Fit Type</th>
-            </tr>
-            <tr>
-                <td>M</td>
-                <td>36"-38"</td>
-                <td>30"-32"</td>
-                <td>37"-39"</td>
-                <td>5’6”-5’9”</td>
-                <td>Slim Fit</td>
-            </tr>
-
-            <tr>
-                <td>L</td>
-                <td>39"-41"</td>
-                <td>33"-35"</td>
-                <td>40"-42"</td>
-                <td>5’9”-6’0”</td>
-                <td>Regular Fit</td>
-            </tr>
-
-            <tr>
-                <td>XL</td>
-                <td>42"-44"</td>
-                <td>36"-38"</td>
-                <td>43"-45"</td>
-                <td>6’0”-6’3”</td>
-                <td>Broad Fit</td>
-            </tr>
-    
-        </table>
-    </div>
-
-  
-    <div class="review-section">
-        <h3>Reviews</h3>
-        <p>No reviews yet.</p>
-        <button class="add-review">+ Add Review</button>
-    </div>
-    </div>
-
-    <?php include 'includes/footer.php'; ?>
-
-    <script src="assets/js/rent.js"></script>
-
-    <script>
-    const addCartBtn = document.getElementById('addCartBtn');
-    const quantityInput = document.getElementById('quantity');
-
-    addCartBtn.addEventListener('click', function(e){
-        e.preventDefault(); // prevent default link behavior
-        let qty = quantityInput.value; // get current quantity
-        // Build dynamic URL for add_to_cart.php
-        let url = `add_to_cart.php?id=101&name=Classic%20Charcoal%20Executive%20Suit&price=4500&qty=${qty}&image=b01.webp`;
-        // Redirect to add_to_cart.php
-        window.location.href = url;
-    });
-    </script>
-
-
+<?php include 'includes/footer.php'; ?>
 </body>
 </html>

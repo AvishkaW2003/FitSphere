@@ -1,32 +1,44 @@
 <?php
 session_start();
 
-// Get product info from GET request
+// Get values from RentNow.php form
 $id = $_GET['id'] ?? null;
-$name = $_GET['name'] ?? '';
+$name = $_GET['name'] ?? null;
 $price = $_GET['price'] ?? 0;
 $qty = $_GET['qty'] ?? 1;
-$image = $_GET['image'] ?? '';
+$image = $_GET['image'] ?? 'default.jpg';
+$size = $_GET['size'] ?? 'M';
+$start_date = $_GET['start_date'] ?? date('Y-m-d');
+$end_date = $_GET['end_date'] ?? date('Y-m-d');
 
-if($id) {
-    // If cart is empty, initialize
-    if(!isset($_SESSION['cart'])) {
-        $_SESSION['cart'] = [];
-    }
+// Validate required fields
+if (!$id || !$name) {
+    die("Invalid product.");
+}
 
-    // If item already exists, increase quantity
-    if(isset($_SESSION['cart'][$id])) {
-        $_SESSION['cart'][$id]['qty'] += $qty;
-    } else {
-        $_SESSION['cart'][$id] = [
-            'name' => $name,
-            'price' => $price,
-            'qty' => $qty,
-            'image' => basename($image) // save only filename
-        ];
-    }
+// Initialize cart if not exists
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
+// Check if item already exists in cart (same ID and size)
+$key = $id . '-' . $size; // unique key by product ID + size
+
+if (isset($_SESSION['cart'][$key])) {
+    $_SESSION['cart'][$key]['qty'] += $qty;
+} else {
+    $_SESSION['cart'][$key] = [
+        'id' => $id,
+        'name' => $name,
+        'price' => $price,
+        'qty' => $qty,
+        'image' => $image,
+        'size' => $size,
+        'start_date' => $start_date,
+        'end_date' => $end_date
+    ];
 }
 
 // Redirect to cart page
-header('Location: cart.php');
-exit;
+header("Location: cart.php");
+exit();

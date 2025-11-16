@@ -94,8 +94,8 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
   <div class="table-wrapper">
-    <table class="table">
-      <thead>
+    <table class="table" >
+      <thead style="background-color: #d4af37ff;">
       <tr>
         <th>ID</th>
         <th>Customer Name</th>

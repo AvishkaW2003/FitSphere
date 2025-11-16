@@ -27,7 +27,7 @@ $cart = $_SESSION['cart'] ?? [];
             <?php $subtotal = 0; ?>
             <?php foreach ($cart as $key => $item): ?>
                 <div class="cart-item">
-                    <img src="assets/images/<?php echo $item['image']; ?>" alt="">
+                    <img src="assets/images/suits/<?php echo $item['image']; ?>" alt="">
 
                     <div class="item-info">
                         <h3><?php echo $item['name']; ?> (<?php echo $item['size']; ?>)</h3>

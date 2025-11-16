@@ -126,8 +126,15 @@ table {
 }
 
 thead {
-    background-color: #d4af379a;
+    background-color: hsl(46, 65%, 52%);
     color: rgb(0, 0, 0);
+}
+
+.table.users-table th { 
+    background:#d4af37ac; 
+    color:hsl(0, 0%, 0%); 
+    padding:10px; 
+    text-align:center; 
 }
 
 th, td {

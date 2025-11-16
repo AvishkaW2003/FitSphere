@@ -42,7 +42,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="businessSuits.php">See more ➜ </a>
         </div>
     </div>
 
@@ -80,7 +80,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="dinnerSuits.php">See more ➜ </a>
         </div>
     </div>
 
@@ -118,7 +118,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="weddingSuits.php">See more ➜ </a>
         </div>
     </div>
 
@@ -156,7 +156,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="nilameSuits.php">See more ➜ </a>
         </div>
     </div>
 
@@ -194,7 +194,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="indianSuits.php">See more ➜ </a>
         </div>
     </div>
 
@@ -232,7 +232,7 @@
         </div>
 
         <div class="explore">
-            <a href="#">See more ➜ </a>
+            <a href="blazers.php">See more ➜ </a>
         </div>
     </div>
     

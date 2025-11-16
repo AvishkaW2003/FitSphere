@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../includes/middleware/AuthMiddleware.php';
 AuthMiddleware::requireRole('user');
 ?>
@@ -256,7 +257,7 @@ AuthMiddleware::requireRole('user');
 
     // Handle form submission
     $message = '';
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_measurements'])) {
         // Validate and save to database - only save fields that match database columns
         $measurements = [
             'neck' => $_POST['neck'] ?? null,
@@ -445,7 +446,7 @@ AuthMiddleware::requireRole('user');
                 <?php echo $message; ?>
             </div>
 
-            <button type="submit" class="save-btn">Save Measurements</button>
+            <button type="submit" name="save_measurements" class="save-btn">Save Measurements</button>
         </form>
     </div>
 

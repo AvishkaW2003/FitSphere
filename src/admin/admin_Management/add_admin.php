@@ -7,8 +7,6 @@ AuthMiddleware::requireRole('admin');
 
 use FitSphere\Database\Database;
 
-
-
 $database = new Database();
 $conn = $database->connect();
 

@@ -18,25 +18,7 @@
  <div class="card" style="width: 18rem;">
   <img src="assets\images\suits\d01.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
-    <h3 class="card-title">Suit-01</h3>
-    <p class="card-text">Rs2500.00</p>
-    <a href="#" class="btn ">Rent Now</a>
-  </div>
-</div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d01.webp" class="card-img-top" id="cardImage" alt="...">
-  <div class="card-body">
-    <h3 class="card-title">Suit-02</h3>
-    <p class="card-text">Rs2500.00</p>
-    <a href="#" class="btn ">Rent Now</a>
-  </div>
-</div>
-
-  <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d01.webp" class="card-img-top" id="cardImage" alt="...">
-  <div class="card-body">
-    <h3 class="card-title">Suit-03</h3>
+    <h3 class="card-title">Classic Black Tuxedo</h3>
     <p class="card-text">Rs2500.00</p>
     <a href="#" class="btn ">Rent Now</a>
   </div>
@@ -45,14 +27,32 @@
   <div class="card" style="width: 18rem;">
   <img src="assets\images\suits\d02.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
-    <h3 class="card-title">Suit-04</h3>
+    <h3 class="card-title">White Dinner Jacket</h3>
+    <p class="card-text">Rs2500.00</p>
+    <a href="#" class="btn ">Rent Now</a>
+  </div>
+</div>
+
+  <div class="card" style="width: 18rem;">
+  <img src="assets\images\suits\d3.webp" class="card-img-top" id="cardImage" alt="...">
+  <div class="card-body">
+    <h3 class="card-title">Midnight Blue Tuxedo</h3>
+    <p class="card-text">Rs2500.00</p>
+    <a href="#" class="btn ">Rent Now</a>
+  </div>
+</div>
+
+  <div class="card" style="width: 18rem;">
+  <img src="assets\images\suits\d04.webp" class="card-img-top" id="cardImage" alt="...">
+  <div class="card-body">
+    <h3 class="card-title">Velvet Dinner Jacket</h3>
     <p class="card-text">Rs2500.00</p>
     <a href="#" class="btn ">Rent Now</a>
   </div>
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d02.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d05.jpg" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-05</h3>
     <p class="card-text">Rs2500.00</p>
@@ -61,7 +61,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d02.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d06.jpg" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-06</h3>
     <p class="card-text">Rs2500.00</p>
@@ -70,7 +70,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d3.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d07.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-07</h3>
     <p class="card-text">Rs2500.00</p>
@@ -79,7 +79,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d3.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d08.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-08</h3>
     <p class="card-text">Rs2500.00</p>
@@ -88,7 +88,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d3.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d09.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-09</h3>
     <p class="card-text">Rs2500.00</p>
@@ -97,7 +97,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d04.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d10.jpg" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-10</h3>
     <p class="card-text">Rs2500.00</p>
@@ -106,7 +106,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d04.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d11.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-11</h3>
     <p class="card-text">Rs2500.00</p>
@@ -115,7 +115,7 @@
 </div>
 
 <div class="card" style="width: 18rem;">
-  <img src="assets\images\suits\d04.webp" class="card-img-top" id="cardImage" alt="...">
+  <img src="assets\images\suits\d12.webp" class="card-img-top" id="cardImage" alt="...">
   <div class="card-body">
     <h3 class="card-title">Suit-12</h3>
     <p class="card-text">Rs2500.00</p>

@@ -40,4 +40,6 @@ foreach ($cart as $item) {
 unset($_SESSION['cart']);
 
 echo "Checkout Completed Successfully!";
-?>
+header("Location: success.php");
+exit();
+

@@ -15,6 +15,6 @@ if ($key && isset($_SESSION['cart'][$key])) {
     }
 }
 
-// Redirect back to cart
+
 header("Location: cart.php");
 exit();

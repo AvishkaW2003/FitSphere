@@ -1,4 +1,4 @@
-/* 🌟 HOW IT WORKS PAGE */
+
 .how-it-works-page {
   padding: 100px 40px;
   background-color: #fff;
@@ -6,7 +6,7 @@
   color: #333;
 }
 
-/* Intro section */
+
 .how-it-works-page .intro {
   text-align: center;
   max-width: 800px;
@@ -14,26 +14,26 @@
 }
 
 .how-it-works-page .intro h1 {
-    text-align: center;
-    position: relative;              /*  Needed for ::after to work */
-    display: inline-block;           /* Makes the underline fit the text */
-    margin-bottom: 60px;
-    font-size: 2.4rem;
-    color: #222;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 60px;
+  font-size: 2.4rem;
+  color: #222;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .how-it-works-page .intro h1::after{
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 4px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #ffaf7b, #d76d77, #3a1c71);
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #ffaf7b, #d76d77, #3a1c71);
 }
 
 .how-it-works-page .intro p {
@@ -42,7 +42,7 @@
   line-height: 1.6;
 }
 
-/* Step container */
+
 .steps {
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
   margin: 0 auto;
 }
 
-/* Each step */
+
 .step {
   display: flex;
   align-items: center;
@@ -62,14 +62,14 @@
   flex-direction: row-reverse;
 }
 
-/* Step image */
+
 .step img {
   width: 50%;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
-/* Step text */
+
 .step .text {
   flex: 1;
 }
@@ -86,7 +86,7 @@
   line-height: 1.7;
 }
 
-/* CTA section */
+
 .cta {
   text-align: center;
   margin-top: 100px;
@@ -117,7 +117,7 @@
   background: linear-gradient(90deg, #3a1c71, #d76d77, #ffaf7b);
 }
 
-/* Responsive layout */
+
 @media (max-width: 900px) {
   .step {
     flex-direction: column;

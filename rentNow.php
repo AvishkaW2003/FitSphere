@@ -1,7 +1,7 @@
 <?php
 include 'includes/header.php';
 
-// Get product data from GET
+
 $id = $_GET['id'] ?? null;
 $image = $_GET['image'] ?? 'default.jpg';
 $name = $_GET['name'] ?? 'Product Name';
@@ -78,7 +78,7 @@ if (!$id || !$name) {
     </div>
 
     
-    <!-- ------------------ Reviews Section ------------------- -->
+    
     <div class="reviews-box">
         <h3>Customer Reviews</h3>
 
@@ -89,7 +89,7 @@ if (!$id || !$name) {
 
 </div>
 
-<!-- ------------------ Measurement Modal ------------------- -->
+
 <div class="measurement-modal" id="measureModal">
     <div class="measurement-content">
         <span class="close-modal" onclick="closeMeasurement()">&times;</span>

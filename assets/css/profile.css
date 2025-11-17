@@ -1,0 +1,92 @@
+body {
+    background: #F8F8F8;
+    font-family: "Poppins", sans-serif;
+}
+
+.profile-container {
+    margin-top: 8rem;
+    padding: 2rem 6rem;
+}
+
+.title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+
+.profile-card {
+    background: white;
+    width: 80%;
+    margin: auto;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.profile-left {
+    flex: 0 0 220px;
+}
+
+.profile-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    background: #ddd;
+    object-fit: cover;
+}
+
+.profile-right {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+.btn-row {
+    margin-top: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.edit-btn {
+    background: #D4AF37;
+    color: black;
+}
+
+.edit-btn:hover {
+    background: #b7950b;
+    color: white;
+}
+
+.pwd-btn {
+    background: #0d0d0d;
+    color: #D4AF37;
+}
+
+.pwd-btn:hover {
+    background: #202020;
+    color: white;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .profile-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .btn-row {
+        justify-content: center;
+    }
+}

@@ -12,6 +12,13 @@ session_start();
 </head>
 <body>
   <header>
+
+        <div class="logo_main">
+            <a href="Index.php" class="logopng1">
+                <img src="assets/images/White Logo.png" class="logo-image1" alt="logo">
+            </a>
+        </div>
+
         <a href="index.php" class="logo">FitSphere</a>
 
         <input type="checkbox" id="menu-toggle" />

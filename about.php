@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About | FitSphere</title>
 
-  <!-- ✅ Link to your main CSS file -->
+  
   <link rel="stylesheet" href="assets/css/udith.css">
 </head>
 

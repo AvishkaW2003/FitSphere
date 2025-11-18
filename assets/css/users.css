@@ -219,3 +219,12 @@ th, td {
     padding: 10px;
     text-align: center;
 }
+/* ensure payments table centered and not full width on huge screens */
+.user-container .table-wrapper { padding: 16px; }
+.users-table { width: 100%; }
+
+/* smaller screens - make search/selects inline */
+@media (max-width:900px){
+  .users-actions { flex-direction:column; align-items:flex-end; }
+  .booking-search { width:100%; }
+}

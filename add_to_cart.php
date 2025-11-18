@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Get values safely from RentNow.php
+
 $id = $_GET['id'] ?? null;
 $name = $_GET['name'] ?? null;
 $price = $_GET['price'] ?? 0;
@@ -11,7 +11,7 @@ $size = $_GET['size'] ?? 'M';
 $start_date = $_GET['start_date'] ?? null;
 $end_date = $_GET['end_date'] ?? null;
 
-// Validate required fields
+
 if (!$id || !$name || !$start_date || !$end_date || $qty < 1) {
     die("Invalid input.");
 }
@@ -40,6 +40,6 @@ if (isset($_SESSION['cart'][$key])) {
     ];
 }
 
-// Redirect to cart
+
 header("Location: cart.php");
 exit();

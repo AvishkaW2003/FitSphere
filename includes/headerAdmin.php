@@ -32,7 +32,7 @@ $baseUrl = "/FitSphere/";
       <a href="<?= $baseUrl ?>src/admin/product_Management/manage_products.php" class="navText">Products</a>
       <a href="<?= $baseUrl ?>src/admin/bookings_Management/manage_bookings.php" class="navText">Bookings</a>
       <a href="<?= $baseUrl ?>src/admin/user_Management/manage_users.php" class="navText">Users</a>
-      <a href="<?= $baseUrl ?>src/admin/" class="navText">Payments</a>
+      <a href="<?= $baseUrl ?>src/admin/payment_Management/manage_payments.php" class="navText">Payments</a>
       <a href="<?= $baseUrl ?>src/admin/settings.php" class="navText">Settings</a>
     </nav>
 

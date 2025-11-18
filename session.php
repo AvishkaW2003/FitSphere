@@ -4,10 +4,10 @@ namespace FitSphere\Core;
 class Session {
     public static function start() {
         if (session_status() === PHP_SESSION_NONE) {
-            // Ensure session works across all folders
+            
             session_set_cookie_params([
                 'lifetime' => 0,
-                'path' => '/', // very important!
+                'path' => '/', 
                 'domain' => '',
                 'secure' => false,
                 'httponly' => true,

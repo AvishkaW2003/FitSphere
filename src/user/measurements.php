@@ -68,7 +68,7 @@ AuthMiddleware::requireRole('user');
 
         .size-section h2:before {
             content: "•";
-            color: #FCB800;
+            color: #D4AF37;
             font-size: 24px;
             margin-right: 10px;
         }
@@ -90,14 +90,14 @@ AuthMiddleware::requireRole('user');
         }
 
         .size-option:hover {
-            border-color: #FCB800;
-            color: #FCB800;
+            border-color: #D4AF37;
+            color: #D4AF37;
         }
 
         .size-option.active {
-            background: #FCB800;
+            background: #D4AF37;
             color: white;
-            border-color: #FCB800;
+            border-color: #D4AF37;
         }
 
         .measurements-section {
@@ -114,7 +114,7 @@ AuthMiddleware::requireRole('user');
 
         .measurements-section h2:before {
             content: "•";
-            color: #FCB800;
+            color: #D4AF37;
             font-size: 24px;
             margin-right: 10px;
         }
@@ -155,7 +155,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .input-wrapper:focus-within {
-            border-color: #FCB800;
+            border-color: #D4AF37;
         }
 
         .measurement-input {
@@ -175,7 +175,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .save-btn {
-            background: #FCB800;
+            background: #D4AF37;
             color: white;
             border: none;
             padding: 15px 40px;
@@ -190,7 +190,7 @@ AuthMiddleware::requireRole('user');
         }
 
         .save-btn:hover {
-            background: #FCB800;
+            background: #D4AF37;
         }
 
         .message {
@@ -225,7 +225,7 @@ AuthMiddleware::requireRole('user');
 
         .current-measurements h2:before {
             content: "•";
-            color: #FCB800;
+            color: #D4AF37;
             font-size: 24px;
             margin-right: 10px;
         }

@@ -744,3 +744,8 @@ nav a{
     
   }
 }
+
+.profile-btn{
+    text-decoration: none;
+    color: inherit;
+}

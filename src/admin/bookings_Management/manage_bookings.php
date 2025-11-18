@@ -154,3 +154,4 @@ $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </html>
 
 </html>
+<?php include '../../../includes/footerAdmin.php'; ?>

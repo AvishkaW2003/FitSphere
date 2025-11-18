@@ -71,3 +71,5 @@ if (!$user) die("User not found");
 </div>
 </body>
 </html>
+
+<?php include '../../../includes/footerAdmin.php'; ?>

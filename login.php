@@ -1,4 +1,6 @@
 <?php
+include 'includes/header.php';
+
 require_once __DIR__ . '/includes/functions.php';
 use FitSphere\Core\Session;
 Session::start();
@@ -36,26 +38,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <style>
-        form { width: 300px; margin: 100px auto; text-align: center; }
-        input { width: 90%; margin: 5px 0; padding: 8px; }
-        button { background: #D4AF37; border: none; padding: 10px; width: 100%; cursor: pointer; }
-        button:hover { background: #b9982c; }
-        .error { color: red; }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | FitSphere</title>
+
+   
+    <link rel="stylesheet" href="assets/css/auth.css" />
 </head>
 <body>
-    <form method="POST">
-        <h2>Login</h2>
-        <?php if (!empty($error) && $_SERVER['REQUEST_METHOD'] === 'POST'): ?>
-            <p class="error"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-        <a href="register.php">Register</a>
-    </form>
+
+    
+    <div class="bg-image"></div>
+
+    <!-- Gradient liquid overlay -->
+    <div class="liquid-layer"></div>
+
+   
+    <div class="login-wrapper">
+
+        <form method="POST" class="glass-card">
+
+            <h2 class="title">Login</h2>
+
+            <?php if (!empty($error)): ?>
+                <p class="error"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
+
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+
+            <p class="bottom-text">
+                Don't have an account?
+                <a href="register.php">Register</a>
+            </p>
+
+        </form>
+
+    </div>
+
+    <script src="assets/js/auth.js"></script>
 </body>
 </html>
+

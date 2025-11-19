@@ -125,3 +125,4 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <script src="<?= $baseUrl ?>assets/js/users.js?v=<?= time() ?>"></script>
 </body>
 </html>
+<?php include '../../../includes/footerAdmin.php'; ?>

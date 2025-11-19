@@ -96,3 +96,4 @@ if (!$booking) die("Booking not found");
 
 </body>
 </html>
+<?php include '../../../includes/footerAdmin.php'; ?>

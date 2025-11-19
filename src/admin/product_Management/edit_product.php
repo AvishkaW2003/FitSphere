@@ -144,3 +144,5 @@ $currentSizes = explode(",", $product['size']);
 
 </body>
 </html>
+
+<?php include '../../../includes/footerAdmin.php'; ?>

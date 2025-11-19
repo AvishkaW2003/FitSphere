@@ -27,3 +27,5 @@ if (isset($_GET['product_id'])) {
     exit();
 }
 ?>
+
+<?php include '../../../includes/footerAdmin.php'; ?>

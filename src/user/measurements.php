@@ -330,7 +330,7 @@ AuthMiddleware::requireRole('user');
         </div>
         <?php endif; ?>
 
-      
+
         <form method="POST" id="measurementForm">
             <div class="measurements-section">
                 <h2>Custom Measurements</h2>

@@ -313,22 +313,7 @@ AuthMiddleware::requireRole('user');
             <p>Enter your precise measurements for a perfect fit</p>
         </div>
 
-        <?php if ($existing_measurements): ?>
-        <div class="current-measurements">
-            <h2>Your Current Measurements</h2>
-            <div class="measurements-list">
-                <div class="measurement-item"><strong>Neck:</strong> <?php echo $existing_measurements['neck'] ? $existing_measurements['neck'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Chest:</strong> <?php echo $existing_measurements['chest'] ? $existing_measurements['chest'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Waist:</strong> <?php echo $existing_measurements['waist'] ? $existing_measurements['waist'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Hips:</strong> <?php echo $existing_measurements['hips'] ? $existing_measurements['hips'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Sleeves:</strong> <?php echo $existing_measurements['sleeve'] ? $existing_measurements['sleeve'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Thigh:</strong> <?php echo $existing_measurements['thigh'] ? $existing_measurements['thigh'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Inseam Length:</strong> <?php echo $existing_measurements['inseam'] ? $existing_measurements['inseam'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Jacket Length:</strong> <?php echo $existing_measurements['jacket_length'] ? $existing_measurements['jacket_length'] . ' cm' : 'Not set'; ?></div>
-                <div class="measurement-item"><strong>Pant Length:</strong> <?php echo $existing_measurements['pant_length'] ? $existing_measurements['pant_length'] . ' cm' : 'Not set'; ?></div>
-            </div>
-        </div>
-        <?php endif; ?>
+       <img src="../../assets/images/measurements.jpg" alt="Measurements Illustration" style="width:100%; border-radius:20px; margin-bottom:20px;">
 
 
         <form method="POST" id="measurementForm">

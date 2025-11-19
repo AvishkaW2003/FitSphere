@@ -12,8 +12,8 @@
         <p class="footer-desc">Your trusted online clothing store for modern and stylish outfits.</p>
 
         <div class="footer-links">
-            <a href="#">About Us</a>
-            <a href="#">Contact</a>
+            <a href="about.php">About Us</a>
+            <a href="about.php#contact">Contact</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Returns</a>
         </div>
@@ -22,6 +22,6 @@
     </div>
 </footer>
 
-    
+<script src="assets/js/udith.js"></script>
 </body>
 </html>

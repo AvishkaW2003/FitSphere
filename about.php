@@ -109,6 +109,39 @@
 
     </div>
 
+    <section id="contact" class="contact-section">
+    <h2>How to Contact Us</h2>
+
+    <div class="contact-box">
+
+        <div class="contact-item">
+            <div class="icon-circle">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+            <h3>Call Us</h3>
+            <p>+94 71 234 5678</p>
+        </div>
+
+        <div class="contact-item">
+            <div class="icon-circle">
+                <i class="fa-solid fa-envelope"></i>
+            </div>
+            <h3>Email Us</h3>
+            <p>support@fitsphere.lk</p>
+        </div>
+
+        <div class="contact-item">
+            <div class="icon-circle">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <h3>Visit Us</h3>
+            <p>123 Colombo Road, Sri Lanka</p>
+        </div>
+
+    </div>
+</section>
+
+
 
   <?php include 'includes/footer.php'; ?>
 

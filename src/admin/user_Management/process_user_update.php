@@ -63,4 +63,3 @@ if (
 echo "Invalid request";
 exit;
 ?>
-<?php include '../../../includes/footerAdmin.php'; ?>

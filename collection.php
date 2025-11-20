@@ -26,7 +26,7 @@ include 'includes/header.php';
             <img src="assets/images/suits/b02.jpg" alt="Double-Breasted Suit">
             <h3>Double-Breasted Suit</h3>
             <p>Rs2500.00</p>
-            <a href="rentNow.php?id=102&name=Double-Breasted Suit&price=2500&image=b02.jpg">Rent Now</a>
+            <a href="rentNow.php?id=102&name=Double-Breasted Suit&price=3500&image=b02.jpg">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/b03.jpg" alt="Three-Piece Suit">
@@ -38,7 +38,7 @@ include 'includes/header.php';
             <img src="assets/images/suits/b04.jpg" alt="Slim-Fit Suit">
             <h3>Slim-Fit Suit</h3>
             <p>Rs2500.00</p>
-            <a href="rentNow.php?id=104&name=Slim-Fit Suit&price=2500&image=b04.jpg">Rent Now</a>
+            <a href="rentNow.php?id=104&name=Slim-Fit Suit&price=4000&image=b04.jpg">Rent Now</a>
         </div>
     </div>
     <div class="explore"><a href="#">See more ➜</a></div>
@@ -57,14 +57,14 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/d02.webp" alt="White Dinner Jacket">
             <h3>White Dinner Jacket</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=202&name=White Dinner Jacket&price=2500&image=d02.webp">Rent Now</a>
+            <p>Rs3000.00</p>
+            <a href="rentNow.php?id=202&name=White Dinner Jacket&price=3000&image=d02.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/d3.webp" alt="Midnight Blue Tuxedo">
             <h3>Midnight Blue Tuxedo</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=203&name=Midnight Blue Tuxedo&price=2500&image=d3.webp">Rent Now</a>
+            <p>Rs3500.00</p>
+            <a href="rentNow.php?id=203&name=Midnight Blue Tuxedo&price=3500&image=d3.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/d04.webp" alt="Velvet Dinner Jacket">
@@ -83,26 +83,26 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/w01.jpg" alt="Classic Black Wedding Suit">
             <h3>Classic Black Wedding Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=301&name=Classic Black Wedding Suit&price=2500&image=w01.jpg">Rent Now</a>
+            <p>Rs3500.00</p>
+            <a href="rentNow.php?id=301&name=Classic Black Wedding Suit&price=3500&image=w01.jpg">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/w02.webp" alt="Navy Blue Suit">
             <h3>Navy Blue Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=302&name=Navy Blue Suit&price=2500&image=w02.webp">Rent Now</a>
+            <p>Rs4500.00</p>
+            <a href="rentNow.php?id=302&name=Navy Blue Suit&price=4500&image=w02.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/w03.webp" alt="Light Grey or Beige Suit">
             <h3>Light Grey or Beige Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=303&name=Light Grey or Beige Suit&price=2500&image=w03.webp">Rent Now</a>
+            <p>Rs4500.00</p>
+            <a href="rentNow.php?id=303&name=Light Grey or Beige Suit&price=4500&image=w03.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/w04.jpg" alt="Three-Piece Suit with Vest">
             <h3>Three-Piece Suit (with Vest)</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=304&name=Three-Piece Suit with Vest&price=2500&image=w04.jpg">Rent Now</a>
+            <p>Rs4000.00</p>
+            <a href="rentNow.php?id=304&name=Three-Piece Suit with Vest&price=4000&image=w04.jpg">Rent Now</a>
         </div>
     </div>
     <div class="explore"><a href="#">See more ➜</a></div>
@@ -115,26 +115,26 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/n01.jpg" alt="Traditional Kandyan Nilame Attire">
             <h3>Traditional Kandyan Nilame Attire</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=401&name=Traditional Kandyan Nilame Attire&price=2500&image=n01.jpg">Rent Now</a>
+            <p>Rs5500.00</p>
+            <a href="rentNow.php?id=401&name=Traditional Kandyan Nilame Attire&price=5500&image=n01.jpg">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/n02.jpg" alt="Royal Gold Nilame Outfit">
             <h3>Royal Gold Nilame Outfit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=402&name=Royal Gold Nilame Outfit&price=2500&image=n02.jpg">Rent Now</a>
+            <p>Rs4500.00</p>
+            <a href="rentNow.php?id=402&name=Royal Gold Nilame Outfit&price=4500&image=n02.jpg">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/n03.webp" alt="White and Silver Nilame Suit">
             <h3>White and Silver Nilame Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=403&name=White and Silver Nilame Suit&price=2500&image=n03.webp">Rent Now</a>
+            <p>Rs5000.00</p>
+            <a href="rentNow.php?id=403&name=White and Silver Nilame Suit&price=5000&image=n03.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/n04.jpg" alt="Regal Black Nilame Suit">
             <h3>Regal Black Nilame Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=404&name=Regal Black Nilame Suit&price=2500&image=n04.jpg">Rent Now</a>
+            <p>Rs5500.00</p>
+            <a href="rentNow.php?id=404&name=Regal Black Nilame Suit&price=5500&image=n04.jpg">Rent Now</a>
         </div>
     </div>
     <div class="explore"><a href="#">See more ➜</a></div>
@@ -147,8 +147,8 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/i01.webp" alt="Sherwani">
             <h3>Sherwani</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=501&name=Sherwani&price=2500&image=i01.webp">Rent Now</a>
+            <p>Rs3500.00</p>
+            <a href="rentNow.php?id=501&name=Sherwani&price=3500&image=i01.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/i2.webp" alt="Kurta Pajama">
@@ -159,14 +159,14 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/i03.webp" alt="Bandhgala (Jodhpuri Suit)">
             <h3>Bandhgala (Jodhpuri Suit)</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=503&name=Bandhgala (Jodhpuri Suit)&price=2500&image=i03.webp">Rent Now</a>
+            <p>Rs3000.00</p>
+            <a href="rentNow.php?id=503&name=Bandhgala (Jodhpuri Suit)&price=3000&image=i03.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/i04.webp" alt="Achkan">
             <h3>Achkan</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=504&name=Achkan&price=2500&image=i04.webp">Rent Now</a>
+            <p>Rs3500.00</p>
+            <a href="rentNow.php?id=504&name=Achkan&price=3500&image=i04.webp">Rent Now</a>
         </div>
     </div>
     <div class="explore"><a href="#">See more ➜</a></div>
@@ -179,8 +179,8 @@ include 'includes/header.php';
         <div class="col">
             <img src="assets/images/suits/b1.webp" alt="Single-Breasted Blazer">
             <h3>Single-Breasted Blazer</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=601&name=Single-Breasted Blazer&price=2500&image=b1.webp">Rent Now</a>
+            <p>Rs2000.00</p>
+            <a href="rentNow.php?id=601&name=Single-Breasted Blazer&price=2000&image=b1.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/b2.webp" alt="Double-Breasted Blazer">

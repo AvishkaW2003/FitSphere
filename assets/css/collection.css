@@ -4,7 +4,7 @@
 .collection{
     text-align: center;
     padding: 50px 20px;
-    background-color: #faefe2;
+    background-color: #f9ebc8;
     margin-top: 80px;
 }
 
@@ -73,7 +73,7 @@
 .col a{
     display: inline-block;
     padding: 10px 20px;
-    background-color: #f1cfa6;
+    background-color: #cf9d1f;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -88,13 +88,13 @@
 .explore a{
     display: inline-block;
     padding: 10px 20px;
-    background-color: #faefe2;
+    background-color: #ffffff;
     color: rgb(3, 0, 0);
     text-decoration: none;
     border-radius: 15px;
     font-weight: lighter;
     margin: 30px;
-    outline: 1px solid #222;
+
     padding: 5px 10px;
     color: #222;
 }

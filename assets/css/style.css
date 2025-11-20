@@ -78,7 +78,8 @@ nav a{
     transition: color 0.3s ease;
 }
 
-nav a:hover {
+nav a:hover,
+nav a.active {
   color: #D4AF37;
 }
 
@@ -106,7 +107,7 @@ nav a:hover {
   transform: scale(0.97);
 }
 
-header > *{
+header{
   display:flex;
   align-items:center;
 }

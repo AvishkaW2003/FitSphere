@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: /FitSphere/src/admin/dashboard.php");
                 exit;
             case 'user':
-                header("Location: /FitSphere/src/user/dashboard.php");
+                header("Location: /FitSphere/dashboard.php");
                 exit;
             default:
                 header("Location: /FitSphere/index.php");

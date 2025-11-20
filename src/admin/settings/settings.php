@@ -9,12 +9,50 @@ use FitSphere\Database\Database;
 $db = new Database();
 $conn = $db->connect();
 
-// Fetch settings (only one row)
-$stmt = $conn->query("SELECT * FROM settings LIMIT 1");
+$message = "";
+
+// Fetch settings
+$stmt = $conn->prepare("SELECT * FROM settings LIMIT 1");
+$stmt->execute();
 $settings = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$settings) {
-    die("Settings not found.");
+    echo "<p style='text-align:center;color:red;'>⚠ Settings not found in database.</p>";
+    exit;
+}
+
+// Handle update
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $name = trim($_POST['site_name']);
+    $deposit = trim($_POST['deposit_percentage']);
+    $late = trim($_POST['late_fee_percentage']);
+    $email = trim($_POST['contact_email']);
+
+    // Update settings
+    $update = $conn->prepare("
+        UPDATE settings 
+        SET site_name = :name,
+            deposit_percentage = :deposit,
+            late_fee_percentage = :late,
+            contact_email = :email,
+            updated_at = NOW()
+        WHERE setting_id = :id
+    ");
+
+    $update->execute([
+        ':name' => $name,
+        ':deposit' => $deposit,
+        ':late' => $late,
+        ':email' => $email,
+        ':id' => $settings['setting_id']
+    ]);
+
+    $message = "Settings updated successfully! ✔";
+
+    // Refresh data
+    $stmt->execute();
+    $settings = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 ?>
 
@@ -29,9 +67,13 @@ if (!$settings) {
 <body>
 
 <div class="settings-container">
-    <h2 class="title">Settings</h2>
+    <h2 class="settings-title">Settings</h2>
 
-    <form action="update_settings.php" method="POST" enctype="multipart/form-data" class="settings-card">
+    <?php if (!empty($message)): ?>
+        <p class="success-message"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+
+    <form method="POST" class="settings-card">
 
         <div class="row">
             <label>Site Name</label>
@@ -41,29 +83,26 @@ if (!$settings) {
 
         <div class="row">
             <label>Deposit Percentage</label>
-            <input type="number" name="deposit_percentage" min="0" max="100"
+            <input type="number" name="deposit_percentage" 
                    value="<?= htmlspecialchars($settings['deposit_percentage']) ?>" required>
         </div>
 
         <div class="row">
             <label>Late Fee Percentage</label>
-            <input type="number" name="late_fee_percentage" min="0" max="100"
+            <input type="number" name="late_fee_percentage" 
                    value="<?= htmlspecialchars($settings['late_fee_percentage']) ?>" required>
         </div>
 
         <div class="row">
             <label>Contact Email</label>
-            <input type="email" name="contact_email"
+            <input type="email" name="contact_email" 
                    value="<?= htmlspecialchars($settings['contact_email']) ?>" required>
         </div>
 
-        <div class="row">
-            <label>Upload Logo</label>
-            <input type="file" name="logo">
-        </div>
-
-        <button class="btn-save">Save Changes</button>
+        <button class="save-btn">Save Changes</button>
+        
     </form>
+
 </div>
 
 </body>

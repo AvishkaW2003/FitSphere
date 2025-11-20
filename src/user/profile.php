@@ -1,5 +1,7 @@
 <?php
+include '../../includes/header.php';
 require_once __DIR__ . '/../../includes/middleware/AuthMiddleware.php';
+
 AuthMiddleware::requireRole('user');
 
 echo'profile.php';
@@ -33,7 +35,7 @@ echo'profile.php';
       -webkit-font-smoothing:antialiased;
     }
 
-    .container{width:90%;max-width:1100px;margin:32px auto}
+    .container{width:90%;max-width:1100px;margin:8rem auto}
 
     h1{ text-align:center; font-size:32px; margin-bottom:22px; }
 
@@ -379,4 +381,3 @@ echo'profile.php';
   </script>
 </body>
 </html>
-

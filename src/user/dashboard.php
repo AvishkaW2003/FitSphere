@@ -1,4 +1,5 @@
 <?php
+include '../../includes/header.php';
 require_once __DIR__ . '/../../includes/auth/auth_user.php';
 
 $user = Auth::user();
@@ -226,7 +227,7 @@ nav a:hover { color: #D4AF37; }
     main{margin-top:0}
 
     /* ----------------- HERO ----------------- */
-    :root { --hero-img: url('assets/images/suits.webp'); }
+    :root { --hero-img: url('../../assets/images/suits.webp'); }
 
     .hero {
       width:100%;min-height:90vh;display:flex;align-items:center;justify-content:center;
@@ -305,25 +306,6 @@ nav a:hover { color: #D4AF37; }
 </head>
 <body>
 
-  <!-- ============================ HEADER ============================ -->
-  <header id="site-header">
-    <div class="logo_main">
-      <a href="index.html" class="logopng1">
-        <img src="assests/images/White Logo.png" alt="FitSphere logo" class="logo-image1">
-      </a>
-    </div>
-    <a href="index.html" class="logo">FitSphere</a>
-    <input type="checkbox" id="menu-toggle">
-    <label for="menu-toggle" class="menu-icon"><i class="fa fa-bars"></i></label>
-    <nav id="main-nav">
-      <a href="HowItWorks.html">How It Works</a>
-      <a href="collection.html">View Clothing</a>
-      <a href="offers.html">Offers</a>
-      <a href="about.html">About</a>
-      <a href="cart.html">Cart</a>
-    </nav>
-    <div class="user-auth" id="user-auth"></div>
-  </header>
 
   <main>
     <!-- HERO -->
@@ -336,11 +318,11 @@ nav a:hover { color: #D4AF37; }
     <!-- BRAND + BOOKINGS -->
     <section class="brands-bookings">
       <div class="brand-logos">
-        <img src="assests/images/brands/Brioni_logo_PNG_(1).png" alt="Brand 1 logo">
-        <img src="assests/images/brands/Giorgio_Armani_(2).png" alt="Brand 2 logo">
-        <img src="assests/images/brands/output-onlinepngtools.png" alt="Brand 3 logo">
-        <img src="assests/images/brands/Ermenegildo_Zegna_(1).png" alt="Brand 4 logo">
-        <img src="assests/images/brands/NB-Logo-Black_80-1.png" alt="Brand 5 logo">
+        <img src="../../assets/images/brands/Brioni_logo_PNG_(1).png" alt="Brand 1 logo">
+        <img src="../../assets/images/brands/Giorgio_Armani_(2).png" alt="Brand 2 logo">
+        <img src="../../assets/images/brands/output-onlinepngtools.png" alt="Brand 3 logo">
+        <img src="../../assets/images/brands/Ermenegildo_Zegna_(1).png" alt="Brand 4 logo">
+        <img src="../../assets/images/brands/NB-Logo-Black_80-1.png" alt="Brand 5 logo">
       </div>
       <div class="booking-wrap">
         <table class="booking-table">
@@ -392,32 +374,32 @@ nav a:hover { color: #D4AF37; }
       <h2>Rent a Suit for Every Occasion</h2>
       <div class="cat001">
         <div class="cat01">
-          <img src="assets/images/suits/Polished Business Look.jpg" alt="Business_suit">
+          <img src="../../assets/images/suits/Polished Business Look.jpg" alt="Business_suit">
           <a href="collection.php#Business_suit" class="cat">Business Suits</a>
           <p>Formal and professional suits ideal for office, meetings, and corporate events.</p>
         </div>
         <div class="cat01">
-          <img src="assests/images/suits/Black Slim-Fit Tuxedo 3-Piece.jpg" alt="Dinner_suit">
+          <img src="../../assests/images/suits/Black Slim-Fit Tuxedo 3-Piece.jpg" alt="Dinner_suit">
           <a href="collection.php#Dinner_suit" class="cat">Dinner Suits</a>
           <p>Elegant evening wear with satin details, perfect for black-tie events and formal dinners.</p>
         </div>
         <div class="cat01">
-          <img src="assests/images/suits/Venue decorations wedding trends for a….jpg" alt="Wedding_Suits">
+          <img src="../../assests/images/suits/Venue decorations wedding trends for a….jpg" alt="Wedding_Suits">
           <a href="collection.php#Wedding_Suits" class="cat">Wedding Suits</a>
           <p>Stylish and special suits designed for grooms and wedding ceremonies.</p>
         </div>
         <div class="cat01">
-          <img src="assests/images/suits/hon-1.jpghon-1.jpg" alt="Nilame_Suits">
+          <img src="../../assests/images/suits/hon-1.jpghon-1.jpg" alt="Nilame_Suits">
           <a href="collection.php#Nilame_Suits" class="cat">Nilame Suits</a>
           <p>Traditional Sri Lankan ceremonial attire inspired by Kandyan royalty.</p>
         </div>
         <div class="cat01">
-          <img src="assets/images/suits/Indian suit.webp" alt="Indian_Suits">
+          <img src="../../assets/images/suits/Indian suit.webp" alt="Indian_Suits">
           <a href="collection.php#Indian_Suits" class="cat">Indian Suits</a>
           <p>Opulent, embroidered Sherwanis and Bandhgalas for stunning wedding and celebratory looks</p>
         </div>
         <div class="cat01">
-          <img src="assets/images/suits/blazer.jpg" alt="Blazers">
+          <img src="../../assets/images/suits/blazer.jpg" alt="Blazers">
           <a href="collection.php#Blazers" class="cat">Blazers</a>
           <p>Formal and professional Blazers ideal for office, meetings, and corporate events.</p>
         </div>

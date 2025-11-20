@@ -8,11 +8,10 @@ include 'includes/header.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection | FitSphere</title>
-    <link rel="stylesheet" href="assets/css/collection.css">
+    <link rel="stylesheet" href="assets/css/collection.css?v=<?time();?>">
 </head>
 <body>
 
-<!-- Business Suits -->
 <div class="collection" id="Business_suit">
     <h2>Business Suits</h2>
     <div class="collection01">
@@ -20,7 +19,7 @@ include 'includes/header.php';
             <img src="assets/images/suits/b01.webp" alt="Single-Breasted Suit">
             <h3>Single-Breasted Suit</h3>
             <p>Rs2500.00</p>
-            <a href="rentNow.php?id=101&name=Single-Breasted Suit&price=2500&image=b01.webp">Rent Now</a>
+            <a href="rentNow.php?id=4&name=Single-Breasted Suit&price=2500&image=b01.webp">Rent Now</a>
         </div>
         <div class="col">
             <img src="assets/images/suits/b02.jpg" alt="Double-Breasted Suit">
@@ -44,7 +43,6 @@ include 'includes/header.php';
     <div class="explore"><a href="businessSuits.php">See more ➜</a></div>
 </div>
 
-<!-- Dinner Suits -->
 <div class="collection" id="Dinner_suit">
     <h2>Dinner Suits</h2>
     <div class="collection01">
@@ -70,13 +68,12 @@ include 'includes/header.php';
             <img src="assets/images/suits/d04.webp" alt="Velvet Dinner Jacket">
             <h3>Velvet Dinner Jacket</h3>
             <p>Rs2500.00</p>
-            <a href="rentNow.php?id=204&name=Velvet Dinner Jacket&price=2500&image=d04.webp">Rent Now</a>
+            <a href="rentNow.php?id=5&name=Velvet Dinner Jacket&price=2500&image=d04.webp">Rent Now</a>
         </div>
     </div>
     <div class="explore"><a href="dinnerSuits.php">See more ➜</a></div>
 </div>
 
-<!-- Wedding Suits -->
 <div class="collection" id="Wedding_Suits">
     <h2>Wedding Suits</h2>
     <div class="collection01">
@@ -108,7 +105,6 @@ include 'includes/header.php';
     <div class="explore"><a href="weddingSuits.php">See more ➜</a></div>
 </div>
 
-<!-- Nilame Suits -->
 <div class="collection" id="Nilame_Suits">
     <h2>Nilame Suits</h2>
     <div class="collection01">
@@ -140,7 +136,6 @@ include 'includes/header.php';
     <div class="explore"><a href="nilameSuits.php">See more ➜</a></div>
 </div>
 
-<!-- Indian Suits -->
 <div class="collection" id="Indian_Suits">
     <h2>Indian Suits</h2>
     <div class="collection01">
@@ -172,7 +167,6 @@ include 'includes/header.php';
     <div class="explore"><a href="indianSuits.php">See more ➜</a></div>
 </div>
 
-<!-- Blazers -->
 <div class="collection" id="Blazers">
     <h2>Blazers</h2>
     <div class="collection01">

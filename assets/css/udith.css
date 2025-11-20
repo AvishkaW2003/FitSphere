@@ -433,7 +433,7 @@ nav a{
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #faefe2; 
+  background-color: #f9ebc8; 
   padding: 60px 10%;
   gap: 40px;
   flex-wrap: wrap;
@@ -676,7 +676,7 @@ nav a{
 .about03{
   text-align: center;
   padding: 50px 20px;
-  background-color: #faefe2; 
+  background-color: #f9ebc8; 
 }
 
 .about03 h2{
@@ -713,7 +713,7 @@ nav a{
 .why-cont > div{
     flex: 0 1 280px; 
     text-align: center;
-    background-color: #D9D9D9;
+    background-color: #2E2E2E;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -730,7 +730,7 @@ nav a{
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 1rem;
-    color: #333;
+    color: #f8f8f8;
 }
 
 @media (max-width: 768px) {
@@ -804,4 +804,49 @@ nav a{
 .icon-circle i {
     font-size: 28px;
     color: white;
+}
+
+.why1 {
+   
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #fff; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+    
+   
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+}
+
+
+.why1:hover {
+    transform: translateY(-8px); 
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.25); 
+}
+
+.why1 img {
+    width: 200px; 
+    height: 200px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.why1:hover img {
+    transform: scale(1.05);
+}
+
+
+.why1 h3 {
+    font-size: 18px;
+    color: #f8f8f8;
+    margin-bottom: 10px;
+}
+
+.why1 p {
+    font-size: 14px;
+    color: #f8f8f8;
 }

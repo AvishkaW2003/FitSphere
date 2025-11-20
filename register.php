@@ -74,11 +74,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <p class="lead">
-            Premium suit rentals—fast delivery, perfect fit, and elegant designs.
+           <b>Timeless Style. Effortless Renting.</b> 
         </p>
 
         <p class="lead small">
-            Join us and experience luxury rentals made simple.
+            Start your style journey with us. Register now to explore our suit collection, manage your bookings, and enjoy a seamless rental experience.
         </p>
     </div>
 

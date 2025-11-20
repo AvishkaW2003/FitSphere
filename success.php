@@ -13,7 +13,7 @@ Swal.fire({
     icon: 'success',
     confirmButtonText: 'Go Home'
 }).then(() => {
-    window.location.href = 'index.php';
+    window.location.href = 'dashboard.php';
 });
 </script>
 

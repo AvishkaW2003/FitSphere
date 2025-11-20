@@ -6,7 +6,7 @@
   <title>About | FitSphere</title>
 
   
-  <link rel="stylesheet" href="assets/css/udith.css">
+  <link rel="stylesheet" href="assets/css/udith.css?v=<?time();?>">
 </head>
 
 <body>

@@ -41,7 +41,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=104&name=Slim-Fit Suit&price=4000&image=b04.jpg">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="businessSuits.php">See more ➜</a></div>
 </div>
 
 <!-- Dinner Suits -->
@@ -73,7 +73,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=204&name=Velvet Dinner Jacket&price=2500&image=d04.webp">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="dinnerSuits.php">See more ➜</a></div>
 </div>
 
 <!-- Wedding Suits -->
@@ -105,7 +105,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=304&name=Three-Piece Suit with Vest&price=4000&image=w04.jpg">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="weddingSuits.php">See more ➜</a></div>
 </div>
 
 <!-- Nilame Suits -->
@@ -137,7 +137,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=404&name=Regal Black Nilame Suit&price=5500&image=n04.jpg">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="nilameSuits.php">See more ➜</a></div>
 </div>
 
 <!-- Indian Suits -->
@@ -169,7 +169,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=504&name=Achkan&price=3500&image=i04.webp">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="indianSuits.php">See more ➜</a></div>
 </div>
 
 <!-- Blazers -->
@@ -201,7 +201,7 @@ include 'includes/header.php';
             <a href="rentNow.php?id=604&name=Velvet Tuxedo Blazer&price=2500&image=b4.webp">Rent Now</a>
         </div>
     </div>
-    <div class="explore"><a href="#">See more ➜</a></div>
+    <div class="explore"><a href="blazers.php">See more ➜</a></div>
 </div>
 
 <?php include 'includes/footer.php'; ?>

@@ -1,3 +1,7 @@
+<?php
+    include 'includes/header.php';
+    $display_name = $name ?? 'Guest'; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +15,11 @@
 </head>
 <body>
 
-    <?php include 'includes/header.php'; ?>
+    
 
     <div class="section">
         <div class="text_sec">
-            <h1>Welcome<br>(username)<br></h1>
+            <h1>Welcome<br><?= $display_name ?><br></h1>
         </div>
     </div>
 

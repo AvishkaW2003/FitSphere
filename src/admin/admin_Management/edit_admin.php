@@ -71,3 +71,5 @@ if (isset($_GET['id'])) {
 </body>
 </html>
 
+<?php include '../../../includes/footerAdmin.php'; ?>
+

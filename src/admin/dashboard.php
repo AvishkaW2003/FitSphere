@@ -135,3 +135,5 @@
     <script src="../../assets/js/main.js"></script>
 </body>
 </html>
+
+<?php include '../../includes/footerAdmin.php'; ?>

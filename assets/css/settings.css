@@ -1,0 +1,61 @@
+body {
+    background: #f8f8f8;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+}
+
+.settings-container {
+    max-width: 900px;
+    margin: 5rem auto;
+    padding: 20px;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.settings-card {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    max-width: 600px;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    align-items: center;
+}
+
+.row label {
+    font-weight: 600;
+    color: #222;
+}
+
+.row input {
+    width: 55%;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.btn-save {
+    margin-top: 20px;
+    width: 180px;
+    background: #D4AF37;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background: #b7950b;
+    color: white;
+}

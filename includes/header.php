@@ -44,7 +44,10 @@ session_start();
                 </div>
             </div>
             <?php else: ?>
-            <button type="button" class="Login-btn-model">Login</button>
+            <button type="button" class="Login-btn-model">
+                <a href="login.php" style="text-decoration: none; color: inherit;">Login</a>
+                
+            </button>
             <?php endif; ?>
         </div>
 

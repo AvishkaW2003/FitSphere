@@ -75,3 +75,6 @@ $update->execute([
 
 header("Location: manage_bookings.php?updated=1");
 exit;
+?>
+
+<?php include '../../../includes/footerAdmin.php'; ?>

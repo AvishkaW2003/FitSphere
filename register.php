@@ -1,4 +1,5 @@
 <?php
+include 'includes/header.php';
 require_once __DIR__ . '/includes/functions.php';
 
 use FitSphere\Core\Session;
@@ -122,3 +123,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script src="assets/js/auth.js"></script>
 </body>
 </html>
+

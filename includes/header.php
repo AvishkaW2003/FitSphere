@@ -48,7 +48,7 @@ if ($isLoggedIn && $email) {
     <nav>
         <?php if ($isLoggedIn): // Logged-in Customer Navigation ?>
             
-            <a href="<?= $baseUrl ?>/mybookings.php">My Bookings</a>
+            <a href="<?= $baseUrl ?>/src/user/my_bookings.php">My Bookings</a>
             <a href="<?= $baseUrl ?>/measurements.php">Measurements</a>
             <a href="<?= $baseUrl ?>/collection.php">Collections</a>
             <a href="<?= $baseUrl ?>/about.php">About</a>
@@ -77,7 +77,7 @@ if ($isLoggedIn && $email) {
                             <span class="dropdown-email"><?= $email ?></span>
                         </div>
                     </div>
-                    <a href="<?= $baseUrl ?>/src/user/profile/profile.php">My Account</a>
+                    <a href="<?= $baseUrl ?>/profile.php">My Account</a>
                     
                     <form action="<?= $baseUrl ?>/logout.php" method="POST" class="logout-form">
                         <button type="submit" class="logout-btn">

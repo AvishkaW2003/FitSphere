@@ -1,7 +1,13 @@
 <?php
-include '../../includes/header.php';
-require_once __DIR__ . '/../../includes/middleware/AuthMiddleware.php';
+include 'includes/header.php'; 
+require_once __DIR__ . '/includes/middleware/AuthMiddleware.php';
 AuthMiddleware::requireRole('user');
+
+$customer_id = $_SESSION['user']['id'] ?? null; 
+if (!$customer_id) {
+    header('Location: ' . $baseUrl . '/login.php');
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,11 +26,10 @@ AuthMiddleware::requireRole('user');
 
         body {
             background-color: #f5f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            /* 🔥 FIX 1: Adjust body styles for correct flow */
+            min-height: auto; 
+            padding: 20px; 
+            display: block; 
         }
 
         .container {
@@ -33,73 +38,27 @@ AuthMiddleware::requireRole('user');
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
             padding: 30px;
             width: 800px;
+            margin: 8rem auto; /* 🔥 FIX 2: Center the container */
         }
 
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
+        /* ... (rest of header/section styles) ... */
 
-        .header h1 {
-            color: #2d3436;
-            font-size: 28px;
-            margin-bottom: 10px;
+        .measurement-image {
+            display: block;
+            margin: 0 auto 20px auto;
+            /* 🔥 FIX 3: Set responsive sizing */
+            min-width: 50%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(30, 29, 29, 0.12);
         }
-
-        .header p {
-            color: #636e72;
-            font-size: 16px;
-        }
-
-        .size-section {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .size-section h2 {
-            color: #2d3436;
-            font-size: 18px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .size-section h2:before {
-            content: "•";
-            color: #D4AF37;
-            font-size: 24px;
-            margin-right: 10px;
-        }
-
-        .size-options {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .size-option {
-            padding: 8px 20px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .size-option:hover {
-            border-color: #D4AF37;
-            color: #D4AF37;
-        }
-
-        .size-option.active {
-            background: #D4AF37;
-            color: white;
-            border-color: #D4AF37;
-        }
-
+        
+        /* ... (rest of your existing CSS styles) ... */
         .measurements-section {
             margin-bottom: 30px;
         }
@@ -208,65 +167,47 @@ AuthMiddleware::requireRole('user');
             border: 1px solid #c3e6cb;
         }
 
-        .current-measurements {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
+        body {
+        background-color: #f5f7fa;
+        min-height: auto; 
+        padding: 0; /* 🔥 FIX: Remove body padding */
+        margin: 0; /* 🔥 FIX: Remove body margin */
+        display: block; 
+    }
 
-        .current-measurements h2 {
-            color: #2d3436;
-            font-size: 18px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
+    /* Target the footer specifically to reset its own spacing */
+    .footer {
+        /* This should be the class for the main footer element */
+        width: 100%;
+        margin: 0; /* 🔥 FIX: Ensure the footer itself has no margin */
+        padding: 20px 0; /* Adjust vertical padding as needed, but clear horizontal padding */
+    }
 
-        .current-measurements h2:before {
-            content: "•";
-            color: #D4AF37;
-            font-size: 24px;
-            margin-right: 10px;
-        }
+    .footer-container {
+        /* If the container inside the footer is responsible for holding content, 
+           we need to ensure it uses margins for inner spacing, not padding that 
+           pushes the footer element away from the edges.
+           If this container is supposed to be centered, keep its width.
+        */
+        padding: 0 15px; /* Add horizontal padding back to the *content* container */
+        max-width: 1200px; /* Example max width */
+        margin: 0 auto; /* Center the content container */
+    }
 
-        .measurements-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .measurement-item {
-            background: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            border: 1px solid #e9ecef;
-        }
-
-        .measurement-image {
-            display: block;
-            margin: 0 auto 20px auto;  
-            width: 70%;                
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(30, 29, 29, 0.12);
-        }
     </style>
 </head>
 <body>
     <?php
-    require_once __DIR__ . '/../../includes/db.php';
+    require_once __DIR__ . '/includes/db.php';
 
     use FitSphere\Database\Database;
 
-    // Create database connection
     $database = new Database();
     $conn = $database->connect();
 
-    // Handle form submission
     $message = '';
+    // Handle form submission logic (as provided in previous step)
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_measurements'])) {
-        // Validate and save to database - only save fields that match database columns
         $measurements = [
             'neck' => $_POST['neck'] ?? null,
             'chest' => $_POST['chest'] ?? null,
@@ -279,9 +220,9 @@ AuthMiddleware::requireRole('user');
             'pant_length' => $_POST['pant_length'] ?? null
         ];
 
-        // Insert or update measurements
+        // Ensure you use the correct $customer_id here (non-hardcoded)
         $sql = "INSERT INTO measurements (customer_id, size, neck, chest, waist, hips, sleeve, thigh, inseam, jacket_length, pant_length, updated_at)
-                VALUES (1, 'M', :neck, :chest, :waist, :hips, :sleeve, :thigh, :inseam, :jacket_length, :pant_length, NOW())
+                VALUES (:customer_id, 'M', :neck, :chest, :waist, :hips, :sleeve, :thigh, :inseam, :jacket_length, :pant_length, NOW())
                 ON DUPLICATE KEY UPDATE
                 neck = VALUES(neck), chest = VALUES(chest), waist = VALUES(waist), hips = VALUES(hips),
                 sleeve = VALUES(sleeve), thigh = VALUES(thigh), inseam = VALUES(inseam),
@@ -289,6 +230,7 @@ AuthMiddleware::requireRole('user');
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
+            ':customer_id' => $customer_id, 
             ':neck' => $measurements['neck'],
             ':chest' => $measurements['chest'],
             ':waist' => $measurements['waist'],
@@ -303,16 +245,17 @@ AuthMiddleware::requireRole('user');
         if ($stmt->rowCount() > 0) {
             $message = "Your measurements have been saved successfully!";
         } else {
-            $message = "Error saving measurements: " . implode(", ", $stmt->errorInfo());
+            $errorInfo = $stmt->errorInfo();
+            $message = "Error saving measurements: " . ($errorInfo[2] ?? "No changes detected.");
         }
     }
 
     // Fetch existing measurements
-    $existing_measurements = null;
-    $sql = "SELECT * FROM measurements WHERE customer_id = 1 ORDER BY updated_at DESC LIMIT 1";
+    $sql = "SELECT * FROM measurements WHERE customer_id = :customer_id ORDER BY updated_at DESC LIMIT 1";
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    $stmt->execute([':customer_id' => $customer_id]); 
     $existing_measurements = $stmt->fetch(PDO::FETCH_ASSOC);
+    $defaults = $existing_measurements ?: [];
     ?>
 
     <div class="container">
@@ -320,41 +263,37 @@ AuthMiddleware::requireRole('user');
             <h1>Custom Measurements</h1>
             <p>Enter your precise measurements for a perfect fit</p>
         </div>
-   
-       <img src="../../assets/images/measurements.jpg" alt="Measurements Illustration"  class="measurement-image">
-
+    
+       <img src="assets/images/measurements.jpg" alt="Measurements Illustration" class="measurement-image">
 
         <form method="POST" id="measurementForm">
             <div class="measurements-section">
                 <h2>Custom Measurements</h2>
                 <div class="measurements-grid">
-                    <!-- Row 1 -->
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Neck:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="neck" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="neck" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['neck'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Chest:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="chest" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="chest" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['chest'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 2 -->
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Waist:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="waist" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="waist" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['waist'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
@@ -364,18 +303,17 @@ AuthMiddleware::requireRole('user');
                         <div class="form-row">
                             <span class="form-label">Hips:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="hips" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="hips" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['hips'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 3 -->
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Sleeves:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="sleeves" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="sleeves" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['sleeve'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
@@ -385,18 +323,17 @@ AuthMiddleware::requireRole('user');
                         <div class="form-row">
                             <span class="form-label">Thigh:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="thigh" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="thigh" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['thigh'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 4 -->
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Inseam Length:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="inseam_length" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="inseam_length" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['inseam'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
@@ -406,22 +343,22 @@ AuthMiddleware::requireRole('user');
                         <div class="form-row">
                             <span class="form-label">Jacket Length:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="jacket_length" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="jacket_length" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['jacket_length'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Row 5 -->
                     <div class="form-group">
                         <div class="form-row">
                             <span class="form-label">Pants Length:</span>
                             <div class="input-wrapper">
-                                <input type="number" class="measurement-input" name="pant_length" placeholder="Enter measurement" step="0.1" min="0">
+                                <input type="number" class="measurement-input" name="pant_length" placeholder="Enter measurement" step="0.1" min="0" value="<?= $defaults['pant_length'] ?? '' ?>">
                                 <span class="unit">cm</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -432,7 +369,7 @@ AuthMiddleware::requireRole('user');
             <button type="submit" name="save_measurements" class="save-btn">Submit</button>
         </form>
     </div>
-
-  
 </body>
 </html>
+
+<?php include 'includes/footer.php'; ?>

@@ -243,6 +243,14 @@ AuthMiddleware::requireRole('user');
             font-size: 14px;
             border: 1px solid #e9ecef;
         }
+
+        .measurement-image {
+            display: block;
+            margin: 0 auto 20px auto;  
+            width: 70%;                
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(30, 29, 29, 0.12);
+        }
     </style>
 </head>
 <body>
@@ -312,8 +320,8 @@ AuthMiddleware::requireRole('user');
             <h1>Custom Measurements</h1>
             <p>Enter your precise measurements for a perfect fit</p>
         </div>
-
-       <img src="../../assets/images/measurements.jpg" alt="Measurements Illustration" style="width:100%; border-radius:20px; margin-bottom:20px;">
+   
+       <img src="../../assets/images/measurements.jpg" alt="Measurements Illustration"  class="measurement-image">
 
 
         <form method="POST" id="measurementForm">

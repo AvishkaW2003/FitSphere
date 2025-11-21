@@ -51,6 +51,7 @@ if ($isLoggedIn && $email) {
             <a href="<?= $baseUrl ?>/src/user/my_bookings.php">My Bookings</a>
             <a href="<?= $baseUrl ?>/measurements.php">Measurements</a>
             <a href="<?= $baseUrl ?>/collection.php">Collections</a>
+            <a href="<?= $baseUrl ?>/offers.php">Offers</a>
             <a href="<?= $baseUrl ?>/about.php">About</a>
         <?php else: // Guest Navigation ?>
             

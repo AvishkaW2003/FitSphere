@@ -61,7 +61,7 @@
 <section class="loyalty-section">
   <h2>💎 Become a Style Member</h2>
   <p>Join our elite rental program to unlock exclusive rewards, early access to collections, and seasonal offers.</p>
-  <a href="index.php" class="btn-join">Join Now</a>
+  <a href="dashboard.php" class="btn-join">Join Now</a>
 </section>
 
 <section class="terms">

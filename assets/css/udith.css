@@ -63,9 +63,9 @@ header.scrolled {
 nav a{
     color: #fff;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     margin-left: 40px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .user-auth{

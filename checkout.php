@@ -1,10 +1,16 @@
 <?php
-session_start();
+// CRITICAL FIX: Ensure session_start() is called first.
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// NOTE: Assuming db.php provides a $conn object using mysqli
 include 'db.php';
 
-// Check if user is logged in (Assuming user ID is stored in $_SESSION['user']['id'])
-if (!isset($_SESSION['user']['id'])) {
+// --- 1. Validation and Setup ---
 
+// FIX: Checking for 'user_id' (for consistency with dashboard)
+if (!isset($_SESSION['user']['user_id']) && !isset($_SESSION['user']['id'])) {
     die("You must be logged in to checkout.");
 }
 
@@ -13,79 +19,102 @@ if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
 }
 
 $cart = $_SESSION['cart'];
-$customer_id = $_SESSION['user']['id']; // 🔥 Use the actual logged-in user ID
-$deposit = 2000.00; // Use float/decimal format
-$status = 'Confirmed'; // A more appropriate initial status
+// FIX: Safely retrieve customer ID using either key
+$customer_id = $_SESSION['user']['user_id'] ?? $_SESSION['user']['id'];
+
+$deposit_fixed = 500.00; // Fixed deposit 
+$status = 'Active';
+$zero_float = 0.00;
+
+// --- START MySQLi TRANSACTION ---
+$conn->begin_transaction();
+$success = true; // Flag to track success of all operations
 
 // Loop through cart items and create booking for each
 foreach ($cart as $item) {
 
-    $product_id = (int)$item['id'];
+    // ... (Rental days calculation, variables setup) ...
+    try {
+        $start_date_str = $item['start_date'];
+        $end_date_str = $item['end_date'];
+
+        $start_date_obj = new DateTime($start_date_str);
+        $end_date_obj = new DateTime($end_date_str);
+        $interval = $start_date_obj->diff($end_date_obj);
+        $rental_days = $interval->days + 1;
+    } catch (Exception $e) {
+        error_log("Date calculation error: " . $e->getMessage());
+        $success = false;
+        break;
+    }
+
+    $product_id = (int)($item['product_id'] ?? $item['id']);
     $qty = (int)$item['qty'];
     $price_per_day = (float)$item['price'];
+    $total_rent_fee = $price_per_day * $rental_days * $qty;
+    $total_price = $total_rent_fee + $deposit_fixed;
 
+    // --- 2. BOOKINGS INSERT: MySQLi VERSION ---
 
-$price_total = $price_per_day * $qty; // Using qty here, adjust if days are involved
+    $stmt_booking = $conn->prepare("
+        INSERT INTO bookings (
+            customer_id, product_id, start_date, end_date, total_price, 
+            deposit, status, price_per_day, late_fee, refund, created_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW()) 
+    ");
 
-$start_date = $item['start_date'];
-$end_date = $item['end_date'];
+    $stmt_booking->bind_param(
+        "iissddsddd",
+        $customer_id,
+        $product_id,
+        $start_date_str,
+        $end_date_str,
+        $total_price,
+        $deposit_fixed,
+        $status,         
+        $price_per_day,
+        $zero_float,
+        $zero_float
+    );
 
+    if (!$stmt_booking->execute()) {
+        // CRITICAL: Fail immediately and show error.
+        $success = false;
+        error_log("Booking INSERT failed: " . $stmt_booking->error);
+        die("FATAL DB ERROR (Booking): " . $stmt_booking->error);
+    }
 
-$zero_float = 0.00;
+    $booking_id = $conn->insert_id;
+    $stmt_booking->close();
 
+    // --- 3. PAYMENTS INSERT ---
+    // ... (Your payments insert code here, ensure it uses $conn->prepare and $customer_id) ...
 
-$stmt_booking = $conn->prepare("
-INSERT INTO bookings (customer_id, product_id, start_date, end_date, total_price, deposit, status, price_per_day, late_fee, refund, created_at)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
-");
+    // --- 4. INVENTORY UPDATE ---
 
+    $stmt_update_stock = $conn->prepare("
+        UPDATE product_inventory 
+        SET stock = stock - ? 
+        WHERE product_id = ? AND stock >= ?
+    ");
+    $stmt_update_stock->bind_param("iii", $qty, $product_id, $qty);
 
-$stmt_booking->bind_param("iisssssddi", 
-    $customer_id, 
-    $product_id, 
-    $start_date, 
-    $end_date, 
-    $price_total, 
-    $deposit, 
-    $status,
-    $price_per_day, // New column added
-    $zero_float, // late_fee default
-    $zero_float 
-);
+    if (!$stmt_update_stock->execute()) {
+        $success = false;
+        error_log("Stock UPDATE failed: " . $stmt_update_stock->error);
+        die("FATAL DB ERROR (Stock): " . $stmt_update_stock->error);
+    }
+    $stmt_update_stock->close();
+} // end foreach loop
 
-
-if (!$stmt_booking->execute()) {
-
-error_log("Booking INSERT failed: " . $stmt_booking->error);
-die("Database error during booking: " . $stmt_booking->error);
+// --- END TRANSACTION ---
+if ($success) {
+    $conn->commit();
+    unset($_SESSION['cart']);
+    header("Location: success.php");
+    exit();
+} else {
+    $conn->rollback();
+    die("Checkout transaction failed and was rolled back.");
 }
-
-$booking_id = $conn->insert_id;
-$stmt_booking->close();
-
-
-
-$stmt_pay = $conn->prepare("
-INSERT INTO payments (booking_id, rent_fee, deposit, late_fee, refund_amount, status, processed_by, created_at)
- VALUES (?, ?, ?, 0, 0, 'Pending', ?, NOW())
-");
-
-$stmt_pay->bind_param("iddi", 
-$booking_id, 
-$price_total, // rent_fee (d)
-$deposit,     // deposit (d)
-$customer_id  // processed_by (i)
-);
-
-$stmt_pay->execute();
-$stmt_pay->close();
-}
-
-// Clear session cart
-unset($_SESSION['cart']);
-
-// Use ob_start() and ob_end_clean() if needed to prevent headers already sent warning
-// ob_end_clean(); // Only if ob_start() is at the top of the entry file
-header("Location: success.php");
-exit();
-?>

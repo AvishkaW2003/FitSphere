@@ -1,28 +1,26 @@
 <?php
-session_start();
-// Auto-detect base URL
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $baseUrl = "/FitSphere";
 
-// Get logged-in user's data (if exists)
+// Get session user
 $user = $_SESSION['user'] ?? null;
 
-// 1. **CRITICAL CHANGE:** Use 'id' to check for login status
-$isLoggedIn = $user && isset($user['id']);
+// Logged-in check (DB uses user_id)
+$isLoggedIn = $user && isset($user['user_id']);
 
-// Determine the home URL based on login status
-$homeUrl = $isLoggedIn ? $baseUrl . "/src/user/dashboard.php" : $baseUrl . "/index.php";
-
-// Initialize name and email variables
-$name = null;
+// Pull real DB name + email
+$name  = $user['name']  ?? 'Guest';
 $email = $user['email'] ?? null;
 
-if ($isLoggedIn && $email) {
-    // 2. **CRITICAL CHANGE:** Extract display name from email
-    // Example: "john.doe@example.com" becomes "John.doe"
-    $emailPrefix = strtok($email, '@');
-    $name = ucfirst(strtolower($emailPrefix));
-}
+// Home URL based on role
+$homeUrl = $isLoggedIn
+            ? $baseUrl . "/dashboard.php"
+            : $baseUrl . "/index.php";
 ?>
+
 <!doctype html>
 <html>
 <head>

@@ -1,7 +1,56 @@
 <?php
-    include 'includes/header.php';
-    $display_name = $name ?? 'Guest'; 
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} 
+require_once 'includes/db.php';
+require_once __DIR__ . '/session.php';
+require_once __DIR__ . '/includes/functions.php';
+include 'includes/header.php'; 
+
+use FitSphere\Database\Database;
+use FitSphere\Core\Session;
+
+// Session::start(); // NOTE: If session.php contains session_start(), this line might be redundant.
+
+if (!isset($_SESSION['user'])) {
+    header("Location: /FitSphere/login.php");
+    exit;
+}
+
+// FIX: Safely retrieve the user ID, checking for common key discrepancies
+$userId = $_SESSION['user']['user_id'] ?? $_SESSION['user']['id'] ?? null; 
+$display_name = $_SESSION['user']['name'] ?? 'User'; // Fallback for name
+
+if (!$userId) {
+    header("Location: /FitSphere/login.php?error=no_id");
+    exit;
+}
+
+$db = new Database();
+$conn = $db->connect();
+
+// Fetch bookings for the logged-in user with product details
+$stmt = $conn->prepare("
+    SELECT 
+        b.booking_id,
+        ps.title AS suit_name,
+        b.start_date,
+        b.end_date,
+        b.status
+    FROM bookings b
+    LEFT JOIN product_inventory pi ON b.product_id = pi.product_id
+    LEFT JOIN product_styles ps ON pi.style_id = ps.style_id
+    WHERE b.customer_id = :uid
+    ORDER BY b.booking_id DESC
+");
+$stmt->bindParam(":uid", $userId);
+$stmt->execute();
+
+$userBookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,9 +63,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 </head>
 <body>
-
-    
-
+<main class="dashboard-content-wrapper">
     <div class="section">
         <div class="text_sec">
             <h1>Welcome<br><?= $display_name ?><br></h1>
@@ -33,7 +80,6 @@
 
     <!-- 🔥 USER BOOKINGS TABLE SECTION -->
 <section class="bookings-section">
-
     <h2>Your Bookings</h2>
 
     <table class="booking-table">
@@ -48,32 +94,23 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td>001</td>
-                <td>Classic Black Suit</td>
-                <td>2025-01-10</td>
-                <td>2025-01-12</td>
-                <td>Confirmed</td>
-            </tr>
-
-            <tr>
-                <td>002</td>
-                <td>Royal Blue Tuxedo</td>
-                <td>2025-02-03</td>
-                <td>2025-02-05</td>
-                <td>Pending</td>
-            </tr>
-
-            <tr>
-                <td>003</td>
-                <td>Wedding White Suit</td>
-                <td>2025-03-18</td>
-                <td>2025-03-20</td>
-                <td>Returned</td>
-            </tr>
+            <?php if (empty($userBookings)): ?>
+                <tr>
+                    <td colspan="5" style="text-align:center;">No bookings found.</td>
+                </tr>
+            <?php else: ?>
+                <?php foreach ($userBookings as $b): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($b['booking_id']) ?></td>
+                        <td><?= htmlspecialchars($b['suit_name']) ?></td>
+                        <td><?= htmlspecialchars($b['start_date']) ?></td>
+                        <td><?= htmlspecialchars($b['end_date']) ?></td>
+                        <td><?= htmlspecialchars($b['status']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
         </tbody>
     </table>
-
 </section>
 
 
@@ -146,7 +183,9 @@
         <h2>Grab your suit here</h2>
         <div id="mapCircle"></div>
     </section>
+</main>
 
+    
     <?php include 'includes/footer.php'; ?>
 
     <!-- Leaflet JS -->

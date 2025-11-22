@@ -10,6 +10,7 @@ if (!Auth::check()) {
 }
 
 $user = Auth::user();
+
 if ($user['role'] !== 'guest') {
     header("Location: /FitSphere/login.php");
     exit;

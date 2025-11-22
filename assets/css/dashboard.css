@@ -1,6 +1,20 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f8f9fa; /* Light gray background for content area */
+}
+
+/* --- HERO SECTION --- */
 .dashboard-container {
     position: relative;
-    height: 100vh;
+    min-height: 400px; 
+    height: 600px; 
     background: url('../images/uploads/Suits.webp') no-repeat center center/cover;
 }
 
@@ -15,84 +29,116 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding-top: 50px; /* Add space for header/logo if needed */
 }
 
 .welcome-text {
-    font-size: 2.5rem;
+    font-size: 3.5rem; /* Slightly reduced for balance */
     font-weight: 700;
 }
 
-/* Base card style */
+/* --- STAT CARDS (Inside Hero) --- */
 .stat-card {
     color: white;
     border: none;
     border-radius: 10px;
-    backdrop-filter: blur(4px); /* slight glassy effect */
-    transition: transform 0.2s ease;
+    backdrop-filter: blur(4px); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .stat-card:hover {
     transform: scale(1.05);
-}   
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+} 
+
+.stat-card h5 {
+    font-size: 0.9rem; 
+    margin-bottom: 5px;
+}
+
+.stat-card h3 {
+    font-size: 1.8rem; 
+    font-weight: 700;
+}
 
 /* Transparent color variants */
-.stat-card.green {
-    background-color: rgba(40, 167, 70, 0.4); 
+.stat-card.green { background-color: rgba(40, 167, 70, 0.5); }
+.stat-card.blue { background-color: rgba(0, 123, 255, 0.5); }
+.stat-card.red { background-color: rgba(236, 30, 51, 0.5); }
+.stat-card.pink { background-color: rgba(232, 62, 140, 0.5); }
+
+
+/* --- CONTENT CARDS (Charts and Tables) --- */
+
+.content-card {
+    background-color: #ffffff; 
+    border-radius: 12px; 
+    padding: 25px; 
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08); 
+    border: 1px solid #e9ecef; 
+    height: 100%; /* Important for equal height in row */
 }
 
-.stat-card.blue {
-    background-color: rgba(0, 123, 255, 0.4); 
-}
+/* --- CHART SPECIFIC STYLING --- */
 
-.stat-card.red {
-    background-color: rgba(236, 30, 51, 0.4); 
-}
-
-.stat-card.pink {   
-    background-color: rgba(232, 62, 140, 0.4); 
-}
-
-.stat-card {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.welcome-text{
-    font-size: 4rem;
-}
-
-/* charts */
 .chart-section{
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
+    /* Added min-height to balance the space if data is small */
+    min-height: 250px; 
+}
 
 .legend-box{
     flex: 1;
-    padding-right: 15px;
+    padding-right: 20px;
 }
-  
+ 
 .chart-wrapper{
     flex: 1;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 #myChart2{
-    max-width: 230px;
-    max-height: 230px;
+    max-width: 250px;
+    max-height: 250px;
 }
 
 .category-box {
     display: flex;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-size: 15px;
 }
 
 .color-dot {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 4px;
-    margin-right: 8px;
+    margin-right: 10px;
+}
+
+/* --- TABLE STYLING --- */
+.table-sm {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden; /* To apply border-radius to the table */
+}
+
+.table-sm thead th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #495057; 
+    background-color: #f8f9fa; 
+    border-bottom: 2px solid #dee2e6;
+}
+.table-sm tbody tr:hover {
+    background-color: #f3f3f3; 
+}
+.table-sm td {
+    font-size: 0.9rem;
 }

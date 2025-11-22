@@ -1,15 +1,59 @@
 <?php
-include 'includes/header.php';
+// Include necessary files and set up environment
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
 
+// Define $baseUrl if not set in includes (Ensure this is correct for your environment)
+$baseUrl = "/FitSphere"; 
 
-$id = $_GET['id'] ?? null;
-$image = $_GET['image'] ?? 'default.jpg';
-$name = $_GET['name'] ?? 'Product Name';
-$price = $_GET['price'] ?? 0;
+use FitSphere\Database\Database;
 
-if (!$id || !$name) {
-    die("Invalid product selected.");
+// --- 1. Get Style ID and Fetch Product Data ---
+
+$styleId = $_GET['style_id'] ?? null;
+
+if (!$styleId || !is_numeric($styleId)) {
+    die("Error: Invalid product style selected. Please return to the collection page.");
 }
+
+$product = null;
+$inventory = [];
+
+try {
+    $database = new Database();
+    $conn = $database->connect();
+    
+    // 1a. Fetch Product Style Details
+    $sqlStyle = "SELECT style_id, title, price_per_day, image, description FROM product_styles WHERE style_id = :style_id";
+    $stmtStyle = $conn->prepare($sqlStyle);
+    $stmtStyle->bindParam(':style_id', $styleId, PDO::PARAM_INT);
+    $stmtStyle->execute();
+    $product = $stmtStyle->fetch(PDO::FETCH_ASSOC);
+
+    if (!$product) {
+        die("Error: Product not found.");
+    }
+
+    // 1b. Fetch Available Inventory (Sizes with Stock > 0)
+    // 🔍 FIX: Changed 'inventory_id' to 'product_id' in the SELECT statement
+    $sqlInventory = "SELECT product_id, size, stock FROM product_inventory WHERE style_id = :style_id AND stock > 0 ORDER BY size";
+    $stmtInventory = $conn->prepare($sqlInventory);
+    $stmtInventory->bindParam(':style_id', $styleId, PDO::PARAM_INT);
+    $stmtInventory->execute();
+    $inventory = $stmtInventory->fetchAll(PDO::FETCH_ASSOC);
+
+    // If no stock is found for any size, the product is currently unavailable
+    if (empty($inventory)) {
+        die("Error: This product is currently out of stock in all sizes.");
+    }
+
+} catch (PDOException $e) {
+    // Note: The original error message is now likely fixed with the above change.
+    die("Database Error: Could not load product details. " . $e->getMessage());
+}
+
+// Include the header *after* fetching data
+include 'includes/header.php';
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +61,8 @@ if (!$id || !$name) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent | FitSphere</title>
-    <link rel="stylesheet" href="assets/css/RentNow.css">
-
+    <title>Rent | <?= htmlspecialchars($product['title']) ?> | FitSphere</title>
+    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/assets/css/RentNow.css">
 </head>
 <body>
     
@@ -27,66 +70,64 @@ if (!$id || !$name) {
     <div class="rent-container">
         
         <div class="rent-image">
-            <img src="assets/images/suits/<?php echo htmlspecialchars($image); ?>" alt="<?php echo htmlspecialchars($name); ?>">
+            <img src="<?= htmlspecialchars($baseUrl) ?>/assets/images/suits/<?= htmlspecialchars($product['image']) ?>" 
+                 alt="<?= htmlspecialchars($product['title']) ?>">
         </div>
 
         <div class="rent-details">
-            <h2><?php echo htmlspecialchars($name); ?></h2>
+            <h2><?= htmlspecialchars($product['title']) ?></h2>
 
-            <p class="price">Rs. <?php echo number_format($price); ?></p>
+            <p class="price">Rs. <?= number_format($product['price_per_day'], 2) ?> / Day</p>
+            
+            <p class="description"><?= nl2br(htmlspecialchars($product['description'] ?? 'No description provided.')) ?></p>
 
             <button class="measurement-btn" onclick="openMeasurement()">Size Guide</button>
-
-            <form action="add_to_cart.php" method="GET">
-                <input type="hidden" name="id" value="<?php echo $id; ?>">
-                <input type="hidden" name="name" value="<?php echo htmlspecialchars($name); ?>">
-                <input type="hidden" name="price" value="<?php echo $price; ?>">
-                <input type="hidden" name="image" value="<?php echo htmlspecialchars($image); ?>">
-
+            
+            <form action="<?= htmlspecialchars($baseUrl) ?>/add_to_cart.php" method="POST">
+                
+                <input type="hidden" name="style_id" value="<?= $product['style_id'] ?>">
+                <input type="hidden" name="price_per_day" value="<?= $product['price_per_day'] ?>">
+                
                 <div class="option">
                     <label>Quantity:</label>
-                    <input type="number" name="qty" value="1" min="1" required>
+                    <input type="number" name="qty" value="1" min="1" max="1" required> 
                 </div>
 
                 <div class="option">
                     <label>Size:</label>
-                    <select name="size" required>
-                        <option>S</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
-                        <option>XXL</option>
-                    </select>
-                </div>
+                    <select name="product_id" required>
+                        <option value="">Select a Size</option>
+                        
+                        <?php foreach ($inventory as $item): ?>
+                            <option value="<?= $item['product_id'] ?>">
+                                <?= htmlspecialchars($item['size']) ?> (Stock: <?= $item['stock'] ?>)
+                            </option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
 
                 <div class="option">
                     <label>Start Date:</label>
-                    <input type="date" name="start_date" required>
+                    <input type="date" name="start_date" min="<?= date('Y-m-d') ?>" required>
                 </div>
 
                 <div class="option">
                     <label>End Date:</label>
-                    <input type="date" name="end_date" required>
+                    <input type="date" name="end_date" min="<?= date('Y-m-d', strtotime('+1 day')) ?>" required>
                 </div>
 
                 <button type="submit" class="add-cart">Add to Cart</button>
-                <a href="collection.php" class="cancel">Cancel</a>
+                <a href="<?= htmlspecialchars($baseUrl) ?>/collection.php" class="cancel">Cancel</a>
             </form>
-
-            
         </div>
     </div>
 
-    
-    
     <div class="reviews-box">
         <h3>Customer Reviews</h3>
-
         <div class="review">
             <p style="color:#777; font-style:italic;">No reviews yet for this product.</p>
         </div>
     </div>
-
 </div>
 
 

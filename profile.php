@@ -1,11 +1,99 @@
 <?php
+// CRITICAL: Ensure the session is started and includes are correct.
 include 'includes/header.php';
-require_once __DIR__ . '/includes/middleware/AuthMiddleware.php';
 
+require_once __DIR__ . '/includes/middleware/AuthMiddleware.php';
+require_once __DIR__ . '/session.php'; 
+require_once 'includes/db.php'; 
+
+use FitSphere\Database\Database;
+use FitSphere\Core\Session;
+
+Session::start();
 AuthMiddleware::requireRole('user');
 
-echo'profile.php';
+// --- 1. Get User ID and Connection ---
+$user = Session::get('user');
+$userId = $user['user_id'] ?? $user['id'] ?? null; 
+
+if (!$userId) {
+    header("Location: /FitSphere/login.php?error=no_session");
+    exit;
+}
+
+// --- 2. Database Connection and User Details Fetch ---
+$fullName = 'Error';
+$email = 'Error';
+$phone = 'Error';
+$recentBookings = [];
+$totalBookings = 0;
+
+try {
+    // Attempt connection
+    $db = new Database();
+    $conn = $db->connect(); 
+    
+    // Check if the connection is a valid PDO object before running queries
+    if (!$conn instanceof \PDO) {
+         throw new \Exception("Database connection failed or returned an invalid object.");
+    }
+    
+    // FIX: Changed 'phone' to 'phone_no' to match your table schema
+    $stmt_user = $conn->prepare("SELECT name, email, phone_no FROM users WHERE user_id = :uid");
+    $stmt_user->bindParam(':uid', $userId, \PDO::PARAM_INT);
+    $stmt_user->execute();
+    $userData = $stmt_user->fetch(\PDO::FETCH_ASSOC);
+
+    // Assign fetched values or use safe defaults
+    $fullName = htmlspecialchars($userData['name'] ?? 'N/A');
+    $email = htmlspecialchars($userData['email'] ?? 'N/A');
+    // FIX: Using the correct column key 'phone_no' for the variable assignment
+    $phone = htmlspecialchars($userData['phone_no'] ?? 'N/A'); 
+
+    // --- 3. Fetch Recent Bookings and Count ---
+    
+    // Fetch count
+    $stmt_count = $conn->prepare("SELECT COUNT(booking_id) AS total FROM bookings WHERE customer_id = :uid");
+    $stmt_count->bindParam(":uid", $userId);
+    $stmt_count->execute();
+    $totalBookings = $stmt_count->fetchColumn();
+
+    // Fetch recent bookings
+    $stmt_bookings = $conn->prepare("
+        SELECT 
+            b.booking_id,
+            ps.title AS outfit_name,
+            b.start_date,
+            b.end_date,
+            b.total_price,
+            b.status
+        FROM bookings b
+        LEFT JOIN product_inventory pi ON b.product_id = pi.product_id
+        LEFT JOIN product_styles ps ON pi.style_id = ps.style_id
+        WHERE b.customer_id = :uid
+        ORDER BY b.booking_id DESC
+        LIMIT 3
+    ");
+    $stmt_bookings->bindParam(":uid", $userId);
+    $stmt_bookings->execute();
+    $recentBookings = $stmt_bookings->fetchAll(\PDO::FETCH_ASSOC);
+
+} catch (\PDOException $e) {
+    // PDO errors
+    error_log("Profile Fetch (PDO) Error: " . $e->getMessage());
+    $fullName = 'Database Error'; 
+    $email = 'Connection Failed'; 
+    $phone = 'Check logs';
+    
+} catch (\Exception $e) {
+    // General errors
+    error_log("Profile General Error: " . $e->getMessage());
+    $fullName = 'System Error'; 
+    $email = 'Check logs'; 
+    $phone = $e->getMessage();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -168,9 +256,9 @@ echo'profile.php';
       </div>
 
       <div class="profile-info">
-        <p><strong>Name:</strong> User</p>
-        <p><strong>Email:</strong> user@gmail.com</p>
-        <p><strong>Phone:</strong> +94 77 123 4567</p>
+        <p><strong>Name:</strong> <?= $fullName ?></p>
+        <p><strong>Email:</strong> <?= $email ?></p>
+        <p><strong>Phone:</strong> <?= $phone ?></p>
 
         <div class="btn-box" role="toolbar" aria-label="Profile actions">
           <button class="btn btn-edit" id="editProfileBtn">Edit Profile</button>
@@ -183,7 +271,7 @@ echo'profile.php';
     <div class="info-row" aria-live="polite">
       <div class="card">
         <h2>Rental Summary:</h2>
-        <p>• Total Bookings: 5</p>
+        <p>• Total Bookings: <?= $totalBookings ?></p>
         <p>• Active Rentals: 2</p>
         <p>• Pending Returns: 1</p>
         <p>• Total Spent: Rs. 7,500</p>
@@ -213,31 +301,35 @@ echo'profile.php';
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#101</td>
-              <td>Grey Business Suit</td>
-              <td>2025-11-05</td>
-              <td>Rs. 2,500</td>
-              <td><span class="status status-upcoming">Upcoming</span></td>
-              <td><a class="link-btn" href="#">View</a></td>
-            </tr>
-            <tr>
-              <td>#102</td>
-              <td>Nilame Kit</td>
-              <td>2025-12-10</td>
-              <td>Rs. 4,000</td>
-              <td><span class="status status-booked">Booked</span></td>
-              <td><a class="link-btn" href="#">View</a></td>
-            </tr>
-            <tr>
-              <td>#103</td>
-              <td>Navy Tuxedo</td>
-              <td>2025-09-30</td>
-              <td>Rs. 1,800</td>
-              <td><span class="status status-returned">Returned</span></td>
-              <td><a class="link-btn" href="#">Receipt</a></td>
-            </tr>
-          </tbody>
+      <?php if (empty($recentBookings)): ?>
+        <tr>
+          <td colspan="6" style="text-align:center;">No recent bookings found.</td>
+        </tr>
+      <?php else: ?>
+        <?php foreach ($recentBookings as $booking): 
+          // Function to determine CSS class based on status
+          $status_lower = strtolower($booking['status']);
+          $status_class = match($status_lower) {
+            'upcoming' => 'status-upcoming',
+            'active' => 'status-booked',
+            'returned' => 'status-returned',
+            default => 'status-booked', // Default style for unknown status
+          };
+          
+          // Set link text based on status
+          $link_text = ($status_lower == 'returned') ? 'Receipt' : 'View';
+        ?>
+        <tr>
+          <td>#<?= htmlspecialchars($booking['booking_id']) ?></td>
+          <td><?= htmlspecialchars($booking['outfit_name'] ?? 'N/A') ?></td>
+          <td><?= htmlspecialchars($booking['start_date']) ?></td>
+          <td>Rs. <?= number_format(htmlspecialchars($booking['total_price']), 2) ?></td>
+          <td><span class="status <?= $status_class ?>"><?= htmlspecialchars($booking['status']) ?></span></td>
+          <td><a class="link-btn" href="booking_details.php?id=<?= $booking['booking_id'] ?>"><?= $link_text ?></a></td>
+        </tr>
+        <?php endforeach; ?>
+      <?php endif; ?>
+     </tbody>
         </table>
       </div>
     </div>
@@ -255,13 +347,13 @@ echo'profile.php';
       <form id="editForm" class="modal-form" onsubmit="return false;">
         <div class="form-row">
           <label for="fullName">Full name</label>
-          <input id="fullName" type="text" value="Nirmal Chamara">
+          <input id="fullName" type="text" value="<?= $fullName ?>">
 
           <label for="email">Email</label>
-          <input id="email" type="email" value="nirmal@example.com">
+          <input id="email" type="email" value="<?= $email ?>">
 
           <label for="phone">Phone</label>
-          <input id="phone" type="tel" value="+94 77 123 4567">
+          <input id="phone" type="tel" value="<?= $phone ?>">
         </div>
 
         <div class="modal-actions">

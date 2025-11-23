@@ -1,5 +1,49 @@
 <?php
-include 'includes/header.php';
+// Note: We assume that the 'includes/header.php' file handles 'session_start()' 
+// and defines the $baseUrl variable, as well as the database connection class.
+require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/includes/functions.php';
+
+// Define $baseUrl if it's not guaranteed to be set by the included files (good practice)
+$baseUrl = "/FitSphere"; 
+
+// Include the header which outputs the navigation and the start of the HTML document
+include 'includes/header.php'; 
+
+use FitSphere\Database\Database;
+
+// --- 1. Database Setup and Data Fetching ---
+
+try {
+    $database = new Database();
+    $conn = $database->connect();
+    
+    // Fetch all product styles
+    $sql = "SELECT style_id, title, category, price_per_day, image FROM product_styles ORDER BY category, title";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $allStyles = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Group styles by category for display
+    $stylesByCategory = [];
+    foreach ($allStyles as $style) {
+        $stylesByCategory[$style['category']][] = $style;
+    }
+
+} catch (PDOException $e) {
+    // Display a user-friendly error if the database connection fails
+    die("Database Error: Could not load products. Please check your database connection. Error: " . $e->getMessage());
+}
+
+$categoryMaps = [
+    // The key is the DB category column value. The 'link_param' is the value passed in the URL.
+    'Business' => ['title' => 'Business Suits', 'link_param' => 'Business'],
+    'Dinner'   => ['title' => 'Dinner Suits',   'link_param' => 'Dinner'],
+    'Wedding'  => ['title' => 'Wedding Suits',  'link_param' => 'Wedding'],
+    'Nilame'   => ['title' => 'Nilame Suits',   'link_param' => 'Nilame'],
+    'Indian'   => ['title' => 'Indian Suits',   'link_param' => 'Indian'],
+    'Blazer'   => ['title' => 'Blazers',        'link_param' => 'Blazer'],
+];
 ?>
 
 <!DOCTYPE html>
@@ -8,195 +52,45 @@ include 'includes/header.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection | FitSphere</title>
-    <link rel="stylesheet" href="assets/css/collection.css?v=<?time();?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars($baseUrl) ?>/assets/css/collection.css?v=<?= time() ?>">
 </head>
 <body>
 
-<div class="collection" id="Business_suit">
-    <h2>Business Suits</h2>
+<?php foreach ($stylesByCategory as $categoryName => $styles): 
+    // 👇 FIX: The fallback array now includes 'link_param' to prevent PHP Notice
+    $map = $categoryMaps[$categoryName] ?? ['title' => $categoryName, 'link_param' => $categoryName]; 
+    $anchorId = str_replace(' ', '_', $map['title']);
+?>
+
+<div class="collection" id="<?= htmlspecialchars($anchorId) ?>">
+    <h2><?= htmlspecialchars($map['title']) ?></h2>
     <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/b01.webp" alt="Single-Breasted Suit">
-            <h3>Single-Breasted Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=4&name=Single-Breasted Suit&price=2500&image=b01.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b02.jpg" alt="Double-Breasted Suit">
-            <h3>Double-Breasted Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=102&name=Double-Breasted Suit&price=3500&image=b02.jpg">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b03.jpg" alt="Three-Piece Suit">
-            <h3>Three-Piece Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=103&name=Three-Piece Suit&price=2500&image=b03.jpg">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b04.jpg" alt="Slim-Fit Suit">
-            <h3>Slim-Fit Suit</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=104&name=Slim-Fit Suit&price=4000&image=b04.jpg">Rent Now</a>
-        </div>
+        <?php 
+        // Only show up to 4 items in the main collection page for a preview
+        $count = 0;
+        foreach ($styles as $style): 
+            if ($count >= 4) break; 
+            $count++;
+        ?>
+            <div class="col">
+                <img src="<?= htmlspecialchars($baseUrl) ?>/assets/images/suits/<?= htmlspecialchars($style['image']) ?>" 
+                     alt="<?= htmlspecialchars($style['title']) ?>">
+                
+                <h3><?= htmlspecialchars($style['title']) ?></h3>
+                <p>Rs<?= number_format($style['price_per_day'], 2) ?></p>
+                
+                <a href="<?= htmlspecialchars($baseUrl) ?>/rentNow.php?style_id=<?= $style['style_id'] ?>">Rent Now</a>
+            </div>
+        <?php endforeach; ?>
     </div>
-    <div class="explore"><a href="businessSuits.php">See more ➜</a></div>
+    <div class="explore">
+        <a href="<?= htmlspecialchars($baseUrl) ?>/seeMore.php?category=<?= htmlspecialchars($map['link_param']) ?>">
+            See more ➜
+        </a>
+    </div>
 </div>
 
-<div class="collection" id="Dinner_suit">
-    <h2>Dinner Suits</h2>
-    <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/d01.webp" alt="Classic Black Tuxedo">
-            <h3>Classic Black Tuxedo</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=201&name=Classic Black Tuxedo&price=2500&image=d01.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/d02.webp" alt="White Dinner Jacket">
-            <h3>White Dinner Jacket</h3>
-            <p>Rs3000.00</p>
-            <a href="rentNow.php?id=202&name=White Dinner Jacket&price=3000&image=d02.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/d3.webp" alt="Midnight Blue Tuxedo">
-            <h3>Midnight Blue Tuxedo</h3>
-            <p>Rs3500.00</p>
-            <a href="rentNow.php?id=203&name=Midnight Blue Tuxedo&price=3500&image=d3.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/d04.webp" alt="Velvet Dinner Jacket">
-            <h3>Velvet Dinner Jacket</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=5&name=Velvet Dinner Jacket&price=2500&image=d04.webp">Rent Now</a>
-        </div>
-    </div>
-    <div class="explore"><a href="dinnerSuits.php">See more ➜</a></div>
-</div>
-
-<div class="collection" id="Wedding_Suits">
-    <h2>Wedding Suits</h2>
-    <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/w01.jpg" alt="Classic Black Wedding Suit">
-            <h3>Classic Black Wedding Suit</h3>
-            <p>Rs3500.00</p>
-            <a href="rentNow.php?id=301&name=Classic Black Wedding Suit&price=3500&image=w01.jpg">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/w02.webp" alt="Navy Blue Suit">
-            <h3>Navy Blue Suit</h3>
-            <p>Rs4500.00</p>
-            <a href="rentNow.php?id=302&name=Navy Blue Suit&price=4500&image=w02.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/w03.webp" alt="Light Grey or Beige Suit">
-            <h3>Light Grey or Beige Suit</h3>
-            <p>Rs4500.00</p>
-            <a href="rentNow.php?id=303&name=Light Grey or Beige Suit&price=4500&image=w03.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/w04.jpg" alt="Three-Piece Suit with Vest">
-            <h3>Three-Piece Suit (with Vest)</h3>
-            <p>Rs4000.00</p>
-            <a href="rentNow.php?id=304&name=Three-Piece Suit with Vest&price=4000&image=w04.jpg">Rent Now</a>
-        </div>
-    </div>
-    <div class="explore"><a href="weddingSuits.php">See more ➜</a></div>
-</div>
-
-<div class="collection" id="Nilame_Suits">
-    <h2>Nilame Suits</h2>
-    <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/n01.jpg" alt="Traditional Kandyan Nilame Attire">
-            <h3>Traditional Kandyan Nilame Attire</h3>
-            <p>Rs5500.00</p>
-            <a href="rentNow.php?id=401&name=Traditional Kandyan Nilame Attire&price=5500&image=n01.jpg">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/n02.jpg" alt="Royal Gold Nilame Outfit">
-            <h3>Royal Gold Nilame Outfit</h3>
-            <p>Rs4500.00</p>
-            <a href="rentNow.php?id=402&name=Royal Gold Nilame Outfit&price=4500&image=n02.jpg">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/n03.webp" alt="White and Silver Nilame Suit">
-            <h3>White and Silver Nilame Suit</h3>
-            <p>Rs5000.00</p>
-            <a href="rentNow.php?id=403&name=White and Silver Nilame Suit&price=5000&image=n03.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/n04.jpg" alt="Regal Black Nilame Suit">
-            <h3>Regal Black Nilame Suit</h3>
-            <p>Rs5500.00</p>
-            <a href="rentNow.php?id=404&name=Regal Black Nilame Suit&price=5500&image=n04.jpg">Rent Now</a>
-        </div>
-    </div>
-    <div class="explore"><a href="nilameSuits.php">See more ➜</a></div>
-</div>
-
-<div class="collection" id="Indian_Suits">
-    <h2>Indian Suits</h2>
-    <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/i01.webp" alt="Sherwani">
-            <h3>Sherwani</h3>
-            <p>Rs3500.00</p>
-            <a href="rentNow.php?id=501&name=Sherwani&price=3500&image=i01.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/i2.webp" alt="Kurta Pajama">
-            <h3>Kurta Pajama</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=502&name=Kurta Pajama&price=2500&image=i2.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/i03.webp" alt="Bandhgala (Jodhpuri Suit)">
-            <h3>Bandhgala (Jodhpuri Suit)</h3>
-            <p>Rs3000.00</p>
-            <a href="rentNow.php?id=503&name=Bandhgala (Jodhpuri Suit)&price=3000&image=i03.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/i04.webp" alt="Achkan">
-            <h3>Achkan</h3>
-            <p>Rs3500.00</p>
-            <a href="rentNow.php?id=504&name=Achkan&price=3500&image=i04.webp">Rent Now</a>
-        </div>
-    </div>
-    <div class="explore"><a href="indianSuits.php">See more ➜</a></div>
-</div>
-
-<div class="collection" id="Blazers">
-    <h2>Blazers</h2>
-    <div class="collection01">
-        <div class="col">
-            <img src="assets/images/suits/b1.webp" alt="Single-Breasted Blazer">
-            <h3>Single-Breasted Blazer</h3>
-            <p>Rs2000.00</p>
-            <a href="rentNow.php?id=601&name=Single-Breasted Blazer&price=2000&image=b1.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b2.webp" alt="Double-Breasted Blazer">
-            <h3>Double-Breasted Blazer</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=602&name=Double-Breasted Blazer&price=2500&image=b2.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b3.webp" alt="Sports Blazer (Casual Blazer)">
-            <h3>Sports Blazer (Casual Blazer)</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=603&name=Sports Blazer&price=2500&image=b3.webp">Rent Now</a>
-        </div>
-        <div class="col">
-            <img src="assets/images/suits/b4.webp" alt="Velvet or Tuxedo Blazer">
-            <h3>Velvet or Tuxedo Blazer</h3>
-            <p>Rs2500.00</p>
-            <a href="rentNow.php?id=604&name=Velvet Tuxedo Blazer&price=2500&image=b4.webp">Rent Now</a>
-        </div>
-    </div>
-    <div class="explore"><a href="blazers.php">See more ➜</a></div>
-</div>
+<?php endforeach; ?>
 
 <?php include 'includes/footer.php'; ?>
 </body>

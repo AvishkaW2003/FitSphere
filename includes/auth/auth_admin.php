@@ -3,18 +3,17 @@ require_once __DIR__ . '/../../session.php';
 require_once __DIR__ . '/../../includes/functions.php';
 
 use FitSphere\Core\Session;
-
 Session::start();
 
 if (!Auth::check()) {
-    // Not logged in → redirect to login
     header("Location: /FitSphere/login.php");
     exit;
 }
 
 $user = Auth::user();
+
+// Ensure role from DB = admin
 if ($user['role'] !== 'admin') {
-    // Logged in but not admin → redirect to login
     header("Location: /FitSphere/login.php");
     exit;
 }

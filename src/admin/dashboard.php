@@ -1,4 +1,5 @@
 <?php 
+// Includes and Middleware (Adjust paths as needed for your specific setup)
 include $_SERVER['DOCUMENT_ROOT'] . '/FitSphere/includes/headerAdmin.php';
 require_once __DIR__ . '/../../includes/middleware/AuthMiddleware.php';
 AuthMiddleware::requireRole('admin');
@@ -8,55 +9,70 @@ use FitSphere\Database\Database;
 $db = new Database();
 $conn = $db->connect();
 
+// --- 1. Fetch Dashboard Data ---
+try {
+    // Total Rentals (all bookings)
+    $totalRentals = $conn->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
 
-// Total Rentals = all bookings
-$totalRentals = $conn->query("SELECT COUNT(*) FROM bookings")->fetchColumn();
+    // Active Rentals
+    $activeRentals = $conn->query("SELECT COUNT(*) FROM bookings WHERE status = 'Active'")->fetchColumn();
 
-// Active Rentals
-$activeRentals = $conn->query("SELECT COUNT(*) FROM bookings WHERE status = 'Active'")->fetchColumn();
+    // Pending Pickup
+    $pendingPickup = $conn->query("SELECT COUNT(*) FROM bookings WHERE status = 'Upcoming'")->fetchColumn();
 
-// Pending Pickup
-$pendingPickup = $conn->query("SELECT COUNT(*) FROM bookings WHERE status = 'Upcoming'")->fetchColumn();
+    // Total Users (FIXED: uses 'users' table)
+    $totalUsers = $conn->query("SELECT COUNT(*) FROM users")->fetchColumn();
 
-// Total Users
-$totalUsers = $conn->query("SELECT COUNT(*) FROM customers")->fetchColumn();
+    // Monthly Revenue (FIXED: calculates total from specific payments columns)
+    $revenueData = $conn->query("
+        SELECT 
+            MONTH(p.created_at) AS month, 
+            SUM(p.rent_fee + p.deposit - p.refund_amount) AS total
+        FROM payments p
+        WHERE YEAR(p.created_at) = YEAR(CURDATE()) 
+        GROUP BY MONTH(p.created_at)
+    ")->fetchAll(PDO::FETCH_ASSOC);
 
-// Monthly Revenue
-$revenueData = $conn->query("
-    SELECT 
-        MONTH(created_at) AS month,
-        SUM(rent_fee + late_fee) AS total
-    FROM payments
-    GROUP BY MONTH(created_at)
-")->fetchAll(PDO::FETCH_ASSOC);
+    $months = array_fill(1, 12, 0);
+    foreach ($revenueData as $row) {
+        $months[(int)$row['month']] = (float)$row['total'];
+    }
 
-$months = array_fill(1, 12, 0);
-foreach ($revenueData as $row) {
-    $months[(int)$row['month']] = (float)$row['total'];
+    // Most Sold Categories (FIXED: joins to product_styles)
+    $categoryData = $conn->query("
+        SELECT ps.category, COUNT(b.booking_id) AS count
+        FROM bookings b
+        JOIN product_inventory pi ON b.product_id = pi.product_id
+        JOIN product_styles ps ON pi.style_id = ps.style_id
+        GROUP BY ps.category
+        ORDER BY count DESC
+    ")->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Assign colors for the chart legend
+    $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'];
+    $colorIndex = 0;
+
+    // Recent Bookings (FIXED: joins to product_styles)
+    $recentBookings = $conn->query("
+        SELECT 
+            b.booking_id,
+            ps.title,
+            b.start_date,
+            b.end_date,
+            b.status
+        FROM bookings b
+        JOIN product_inventory pi ON b.product_id = pi.product_id
+        JOIN product_styles ps ON pi.style_id = ps.style_id
+        ORDER BY b.booking_id DESC
+        LIMIT 5
+    ")->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    // Basic error handling for database failures
+    error_log("Admin Dashboard DB Error: " . $e->getMessage());
+    $totalRentals = $activeRentals = $pendingPickup = $totalUsers = 'N/A';
+    $months = array_fill(1, 12, 0);
+    $categoryData = $recentBookings = [];
 }
-
-// Most Sold Categories
-$categoryData = $conn->query("
-    SELECT p.category, COUNT(*) AS count
-    FROM bookings b
-    JOIN products p ON b.product_id = p.product_id
-    GROUP BY p.category
-")->fetchAll(PDO::FETCH_ASSOC);
-
-// Resent Bookings
-$recentBookings = $conn->query("
-    SELECT 
-        b.booking_id,
-        p.title,
-        b.start_date,
-        b.end_date,
-        b.status
-    FROM bookings b
-    JOIN products p ON b.product_id = p.product_id
-    ORDER BY b.booking_id DESC
-    LIMIT 5
-")->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -67,14 +83,11 @@ $recentBookings = $conn->query("
     <title>Admin Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard.css?v=<?time() ?>">
 </head>
 
 <body>
-  
-
-
-<!-- Dashboard Hero Section -->
+  
 <div class="dashboard-container">
     <div class="overlay">
         <h1 class="welcome-text text-center text-light">
@@ -118,29 +131,29 @@ $recentBookings = $conn->query("
     </div>
 </div>
 
-<!-- Monthly Revenue Chart -->
-<div class="container my-4 p-4 border border-primary rounded bg-white shadow-sm">
-    <div class="d-flex justify-content-between">
-        <h5 class="fw-semibold">Monthly Revenue</h5>
-        <span class="fw-bold"><?= date("Y") ?></span>
+<div class="container my-5">
+    <div class="content-card"> 
+        <div class="d-flex justify-content-between">
+            <h5 class="fw-semibold">Monthly Revenue</h5>
+            <span class="fw-bold"><?= date("Y") ?></span>
+        </div>
+        <canvas id="myChart1" height="75"></canvas>
     </div>
-    <canvas id="myChart1" height="75"></canvas>
 </div>
 
-<!-- Bottom Section -->
-<div class="container my-4">
+<div class="container my-5">
     <div class="row g-4">
 
-        <!-- Pie chart -->
         <div class="col-md-6">
-            <div class="p-4 bg-white shadow-sm rounded border border-light d-flex justify-content-between align-items-center chart-section">
+            <div class="content-card chart-section">
 
                 <div class="legend-box">
-                    <h4 class="fw-semibold mb-3">Most Sold Categories</h4>
+                    <h4 class="fw-semibold mb-4">Most Sold Categories</h4>
 
                     <?php foreach ($categoryData as $item): ?>
+                        <?php $color = $colors[$colorIndex++ % count($colors)]; ?>
                         <div class="category-box">
-                            <div class="color-dot"></div>
+                            <div class="color-dot" style="background-color: <?= $color ?>;"></div> 
                             <span><?= htmlspecialchars($item['category']) ?></span>
                         </div>
                     <?php endforeach; ?>
@@ -153,15 +166,14 @@ $recentBookings = $conn->query("
             </div>
         </div>
 
-        <!-- Recent Bookings -->
         <div class="col-md-6">
-            <div class="p-4 bg-white shadow-sm rounded border border-light">
+            <div class="content-card">
                 <h6 class="fw-semibold mb-3">Recent Bookings</h6>
 
                 <table class="table table-sm align-middle text-center">
-                    <thead class="table-warning">
+                    <thead class="table-light">
                         <tr>
-                            <th>Booking ID</th>
+                            <th>ID</th>
                             <th>Suit</th>
                             <th>Start</th>
                             <th>End</th>
@@ -170,17 +182,20 @@ $recentBookings = $conn->query("
                     </thead>
 
                     <tbody>
-                        <?php foreach ($recentBookings as $b): ?>
-                        <tr>
-                            <td><?= $b['booking_id'] ?></td>
-                            <td><?= htmlspecialchars($b['title']) ?></td>
-                            <td><?= $b['start_date'] ?></td>
-                            <td><?= $b['end_date'] ?></td>
-                            <td><?= $b['status'] ?></td>
-                        </tr>
-                        <?php endforeach; ?>
+                        <?php if (empty($recentBookings)): ?>
+                            <tr><td colspan="5">No recent bookings found.</td></tr>
+                        <?php else: ?>
+                            <?php foreach ($recentBookings as $b): ?>
+                                <tr>
+                                    <td><?= $b['booking_id'] ?></td>
+                                    <td><?= htmlspecialchars($b['title']) ?></td>
+                                    <td><?= $b['start_date'] ?></td>
+                                    <td><?= $b['end_date'] ?></td>
+                                    <td><?= $b['status'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
-
                 </table>
 
                 <a href="/FitSphere/src/admin/bookings_Management/manage_bookings.php" class="text-end text-muted small mb-0 d-block">
@@ -202,10 +217,9 @@ $recentBookings = $conn->query("
 </script>
 
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="../../assets/js/main.js?v=<?time()  ?>"></script>
+<script src="../../assets/js/main.js?v=<?time() ?>"></script>
 
 </body>
 </html>

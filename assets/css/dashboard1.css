@@ -3,12 +3,21 @@
     margin: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
+    
 }
 
 body {
     background: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-
+.dashboard-content-wrapper {
+    flex-grow: 1;
+}
+.main04 {
+    flex-grow: 1;
+}
 /* HEADER */
 .header {
     width: 100%;

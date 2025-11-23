@@ -124,7 +124,7 @@ $stmt = null;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(9, 9, 9, 0.5);
             display: none; /* Hidden by default */
             justify-content: center;
             align-items: center;
@@ -135,7 +135,7 @@ $stmt = null;
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(4, 4, 4, 0.3);
             max-width: 400px;
             width: 90%;
             text-align: center;
@@ -144,7 +144,7 @@ $stmt = null;
         /* Existing Styles */
         .card {
             margin: auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 15px rgba(5, 5, 5, 0.15);
             transition: 0.3s ease;
             margin-top: 30px;
         }
@@ -234,7 +234,7 @@ $stmt = null;
         }
 
         #card2 {
-            background-color: rgb(232, 251, 236);
+            background-color: rgba(228, 249, 233, 1);
         }
 
         .color1 {

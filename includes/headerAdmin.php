@@ -28,10 +28,10 @@ $baseUrl = "/FitSphere/";
     <a href="#" class="logo" style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">FitSphere</a>
 
     <nav id="mainNav">
-      <a href="<?= $baseUrl ?>src/admin/dashboard.php" class="navText">Dashboard</a>
       <a href="<?= $baseUrl ?>src/admin/product_Management/manage_products.php" class="navText">Products</a>
       <a href="<?= $baseUrl ?>src/admin/bookings_Management/manage_bookings.php" class="navText">Bookings</a>
       <a href="<?= $baseUrl ?>src/admin/user_Management/manage_users.php" class="navText">Users</a>
+      <a href="<?= $baseUrl ?>src/admin/measurements_Management/manage_measurements.php" class="navText">Measurements</a>
       <a href="<?= $baseUrl ?>src/admin/settings/settings.php" class="navText">Settings</a>
       <a href="<?= $baseUrl ?>src/admin/logout.php" class="navText" onclick="return confirm('Are you sure you want to Logot?');">Logout</a>
     </nav>

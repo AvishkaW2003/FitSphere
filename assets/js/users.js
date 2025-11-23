@@ -1,4 +1,3 @@
-// assets/js/users.js
 document.addEventListener('DOMContentLoaded', () => {
 
   // Attach status toggle buttons (class .toggle-status)
@@ -17,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(r => r.json())
       .then(data => {
         if (data.success) {
+
           // update badge + button text
           const badge = document.querySelector(`#status-badge-${userId}`);
           badge.textContent = data.newStatus;
@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (data.newStatus === 'Active') badge.classList.add('badge-active');
           else if (data.newStatus === 'Suspended') badge.classList.add('badge-suspended');
           else badge.classList.add('badge-blocked');
+          
 
           // update toggle button dataset & label
           btn.dataset.target = data.nextAction;

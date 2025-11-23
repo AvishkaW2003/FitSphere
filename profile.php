@@ -281,7 +281,7 @@ try {
         <h2>Saved Measurements:</h2>
         <p>M (Standard)</p>
         <p>Last Updated: Oct 2025</p>
-        <a class="detail-btn" href="#" role="button">View Detail</a>
+        <a class="detail-btn" href="measurements.php" role="button">View Detail</a>
       </div>
     </div>
 
@@ -325,7 +325,7 @@ try {
           <td><?= htmlspecialchars($booking['start_date']) ?></td>
           <td>Rs. <?= number_format(htmlspecialchars($booking['total_price']), 2) ?></td>
           <td><span class="status <?= $status_class ?>"><?= htmlspecialchars($booking['status']) ?></span></td>
-          <td><a class="link-btn" href="booking_details.php?id=<?= $booking['booking_id'] ?>"><?= $link_text ?></a></td>
+          <td><a class="link-btn" href="src/user/my_bookings.php?= $booking['booking_id'] ?>"><?= $link_text ?></a></td>
         </tr>
         <?php endforeach; ?>
       <?php endif; ?>

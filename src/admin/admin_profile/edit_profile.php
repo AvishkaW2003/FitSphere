@@ -16,13 +16,13 @@ if (!$user || $user["role"] !== "admin") {
     die("No logged-in admin found.");
 }
 
-$userId = $user["id"];
+$userId = $user["user_id"];
 
 $db = new Database();
 $conn = $db->connect();
 
 // Fetch admin
-$stmt = $conn->prepare("SELECT * FROM users WHERE id = :id");
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = :id");
 $stmt->execute(['id' => $userId]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -30,27 +30,30 @@ if (!$admin) {
     die("Admin not found.");
 }
 
-$message = "";  // <-- FIXED: Always defined
-
+$message = ""; 
 // Handle form submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST["name"]);
     $email = trim($_POST["email"]);
+    $phone = trim($_POST["phone"]);
 
     if ($name && $email) {
         $update = $conn->prepare("
-            UPDATE users SET name = :name, email = :email WHERE id = :id
+            -- FIX 1: Added comma after :email and corrected WHERE column to user_id
+            UPDATE users SET name = :name, email = :email, phone_no = :phone WHERE user_id = :id
         ");
 
         $update->execute([
             'name' => $name,
             'email' => $email,
+            'phone' => $phone, 
             'id' => $userId
         ]);
 
         $message = "Profile updated successfully!";
         $admin['name'] = $name;
         $admin['email'] = $email;
+        $admin['phone_no'] = $phone;
 
         // Update session
         $user["name"] = $name;
@@ -80,6 +83,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label>Email</label>
         <input type="email" name="email" value="<?= htmlspecialchars($admin['email']) ?>" required>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="<?= htmlspecialchars($admin['phone_no']) ?>" required>
 
         <button class="btn-save">Save Changes</button>
         <a href="profile.php" class="btn-cancel">Cancel</a>

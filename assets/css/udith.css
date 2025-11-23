@@ -403,7 +403,7 @@ nav a{
 .cat {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #f1cfa6;
+  background-color: #D4AF37;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -412,21 +412,25 @@ nav a{
 }
 
 .cat:hover {
-  background-color: #eeb571;
+  color: #080808;
+  background-color: #cdb052;
 }
 
 .collectionNav{
     display: inline-block;
   padding: 10px 20px;
-  background-color: #f6ad55;
-  color: white;
+  background-color: #080808;
+  color: #B8860B;
   text-decoration: none;
   border-radius: 5px;
   font-weight: bold;
   margin: 20px;
 }
 
-
+.collectionNav:hover {
+  background-color: #B8860B;
+  color: #080808; 
+}
   /* about */
 
   .mission-section {
@@ -848,5 +852,110 @@ nav a{
 
 .why1 p {
     font-size: 14px;
-    color: #f8f8f8;
+    color: hsl(0, 0%, 97%);
 }
+
+.contact-map-section {
+  font-family: 'Arial', sans-serif;
+  padding: 50px 0;
+  background-color: #f9f9f9;
+}
+
+.card-section {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.card-section:hover{
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.contact-info {
+  text-align: left;
+  flex: 1;
+  min-width: 250px;
+  margin-left: 4rem;
+}
+
+.contact-info .info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.contact-info .icon {
+  font-size: 1.5rem;
+  margin-top: 4px;
+}
+
+.contact-info strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.map-container {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.bg-cover {
+  background-image: url("../images/cover2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  color: #000; /* Change text color if needed */
+}
+
+.bg-cover {
+  position: relative;
+}
+
+.bg-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  border-radius: 20px;
+}
+
+.bg-cover * {
+  position: relative;
+  z-index: 2;
+}
+
+
+.bg-cover:hover{
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+.info-item p{
+  color: #ffffff;
+}
+ .info-item strong{
+  color: #D4AF37;
+ }

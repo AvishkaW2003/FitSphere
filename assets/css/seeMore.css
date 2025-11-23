@@ -1,3 +1,5 @@
+#see more pages styling
+
 .card {
     width: calc(25% - 15px);
     height: 100%;
@@ -80,7 +82,7 @@ h1::after {
     width: 100px;
     height: 4px;
     border-radius: 2px;
-    background: linear-gradient(90deg, #ffaf7b, #d76d77, #3a1c71);
+    background: linear-gradient(90deg, #ffb381, #d76d78, #3a1c71);
 }
 
 h3 {

@@ -12,7 +12,7 @@
   $conn = $database->connect();
 
   // Now you can use $conn to query the DB
-  $query = "SELECT id, name, email, role, created_at FROM admins";
+  $query = "SELECT user_id, name, email, role, phone_no, join_date FROM users WHERE role='admin' ORDER BY user_id DESC";
   $stmt = $conn->prepare($query);
   $stmt->execute();
   $admins = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,7 +54,8 @@
         <th>ID</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Role</th>
+        <th>Phone Number</th>
+        <!-- <th>Role</th> -->
         <th>Date</th>
         <th>Action</th>
       </tr>
@@ -64,14 +65,15 @@
       <?php if (count($admins) > 0): ?>
         <?php foreach ($admins as $row): ?>
           <tr>
-              <td><?= htmlspecialchars($row['id']); ?></td>
+              <td><?= htmlspecialchars($row['user_id']); ?></td>
               <td><?= htmlspecialchars($row['name']); ?></td>
               <td><?= htmlspecialchars($row['email']); ?></td>
-              <td><?= htmlspecialchars($row['role']); ?></td>
-              <td><?= htmlspecialchars($row['created_at']); ?></td>
+              <td><?= htmlspecialchars($row['phone_no']); ?></td>
+              <!-- <td><?= htmlspecialchars($row['role']); ?></td> -->
+              <td><?= htmlspecialchars($row['join_date']); ?></td>
               <td>
-                <a href="edit_admin.php?id=<?= $row['id']; ?>" class="action-btn edit-btn">Edit</a> |
-                <a href="delete_admin.php?id=<?= $row['id']; ?>" class="action-btn delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
+                <a href="edit_admin.php?user_id=<?= $row['user_id']; ?>" class="action-btn edit-btn">Edit</a> |
+                <a href="delete_admin.php?user_id=<?= $row['user_id']; ?>" class="action-btn delete-btn" onclick="return confirm('Are you sure?')">Delete</a>
               </td>
           </tr>
         <?php endforeach; ?>

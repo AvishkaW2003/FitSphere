@@ -11,6 +11,11 @@ $conn = $db->connect();
 
 $message = "";
 
+// Check for success message from process_settings.php
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    $message = "Settings updated successfully! ✔";
+}
+
 // Fetch settings
 $stmt = $conn->prepare("SELECT * FROM settings LIMIT 1");
 $stmt->execute();
@@ -21,39 +26,7 @@ if (!$settings) {
     exit;
 }
 
-// Handle update
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $name = trim($_POST['site_name']);
-    $deposit = trim($_POST['deposit_percentage']);
-    $late = trim($_POST['late_fee_percentage']);
-    $email = trim($_POST['contact_email']);
-
-    // Update settings
-    $update = $conn->prepare("
-        UPDATE settings 
-        SET site_name = :name,
-            deposit_percentage = :deposit,
-            late_fee_percentage = :late,
-            contact_email = :email,
-            updated_at = NOW()
-        WHERE setting_id = :id
-    ");
-
-    $update->execute([
-        ':name' => $name,
-        ':deposit' => $deposit,
-        ':late' => $late,
-        ':email' => $email,
-        ':id' => $settings['setting_id']
-    ]);
-
-    $message = "Settings updated successfully! ✔";
-
-    // Refresh data
-    $stmt->execute();
-    $settings = $stmt->fetch(PDO::FETCH_ASSOC);
-}
 ?>
 
 <!DOCTYPE html>
@@ -73,37 +46,138 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p class="success-message"><?= htmlspecialchars($message) ?></p>
     <?php endif; ?>
 
-    <form method="POST" class="settings-card">
+    <!-- ✅ FIX: Added enctype for file uploads and set action to the processing file -->
+    <form method="POST" action="update_settings.php" class="settings-card" id="settingsUpdateForm" enctype="multipart/form-data">
 
         <div class="row">
             <label>Site Name</label>
             <input type="text" name="site_name" 
-                   value="<?= htmlspecialchars($settings['site_name']) ?>" required>
+                    value="<?= htmlspecialchars($settings['site_name']) ?>" required>
         </div>
 
         <div class="row">
-            <label>Deposit Percentage</label>
+            <label>Deposit Percentage (%)</label>
             <input type="number" name="deposit_percentage" 
-                   value="<?= htmlspecialchars($settings['deposit_percentage']) ?>" required>
+                    value="<?= htmlspecialchars($settings['deposit_percentage']) ?>" required>
         </div>
 
         <div class="row">
-            <label>Late Fee Percentage</label>
+            <label>Late Fee Percentage (%)</label>
             <input type="number" name="late_fee_percentage" 
-                   value="<?= htmlspecialchars($settings['late_fee_percentage']) ?>" required>
+                    value="<?= htmlspecialchars($settings['late_fee_percentage']) ?>" required>
         </div>
 
         <div class="row">
             <label>Contact Email</label>
             <input type="email" name="contact_email" 
-                   value="<?= htmlspecialchars($settings['contact_email']) ?>" required>
+                    value="<?= htmlspecialchars($settings['contact_email']) ?>" required>
         </div>
+
+        <!-- New section for Logo Upload -->
+        <div class="row logo-upload-row">
+            <label>Site Logo</label>
+            <input type="file" name="logo" accept="image/*">
+            <?php if (!empty($settings['logo_path'])): ?>
+                <div class="current-logo">
+                    <!-- Note: The $baseUrl is assumed to be defined by headerAdmin.php -->
+                    <p>Current Logo:</p>
+                    <img src="<?= $baseUrl . htmlspecialchars($settings['logo_path']) ?>" alt="Site Logo" style="max-width: 150px; max-height: 50px; margin-top: 10px; border: 1px solid #ccc; padding: 5px; border-radius: 4px;">
+                </div>
+            <?php endif; ?>
+        </div>
+        <!-- End Logo Upload -->
 
         <button class="save-btn">Save Changes</button>
         
     </form>
 
 </div>
+
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h4>Confirm Update</h4>
+        <p>Are you sure you want to update the settings?</p>
+
+        <button id="confirmButton" class="confirm-btn">Yes, Update</button>
+        <button id="cancelButton" class="cancel-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- MODAL STYLE -->
+<style>
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background: #5656568c;
+    padding: 20px;
+    margin: 15% auto;
+    width: 380px;
+    text-align: center;
+    border-radius: 10px;
+}
+.confirm-btn, .cancel-btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 10px;
+}
+.confirm-btn {
+    background-color: #D4AF37;
+    color: white;
+    border: none;
+}
+
+</style> 
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+    const form = document.getElementById('settingsUpdateForm');
+    const modal = document.getElementById('confirmationModal');
+    const confirmButton = document.getElementById('confirmButton');
+    const cancelButton = document.getElementById('cancelButton');
+    let isConfirmed = false; // Flag to track confirmation state
+
+    if (form) {
+        
+        // 1. Intercept form submission
+        form.addEventListener('submit', function(e) {
+            // Prevent default submission if we haven't confirmed yet
+            if (!isConfirmed) {
+                e.preventDefault();
+                modal.style.display = 'block';
+            }
+            // If isConfirmed is true, the form will submit normally.
+        });
+
+        // 2. Handle Confirm button click
+        confirmButton.addEventListener('click', function() {
+            isConfirmed = true;
+            modal.style.display = 'none';
+            // Programmatically submit the form once confirmed
+            form.submit();
+        });
+
+        // 3. Handle Cancel button click
+        cancelButton.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal if user clicks outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+    }
+
+});
+</script>
 
 </body>
 </html>

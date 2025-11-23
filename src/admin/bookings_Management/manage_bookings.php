@@ -1,5 +1,5 @@
 <?php
-// manage_bookings.php
+
 include $_SERVER['DOCUMENT_ROOT'] . '/FitSphere/includes/headerAdmin.php';
 require_once __DIR__ . '/../../../includes/db.php';
 require_once __DIR__ . '/../../../includes/middleware/AuthMiddleware.php';
@@ -14,7 +14,7 @@ $search = trim($_GET['search'] ?? '');
 $statusFilter = $_GET['status'] ?? '';
 $sort = $_GET['sort'] ?? 'created_at';
 
-// ✅ FIX: Changed 'customers c' to 'users u' and adjusted the join key.
+
 $sql = "SELECT b.*, u.name AS customer_name, ps.title AS product_title
     FROM bookings b
     LEFT JOIN users u ON b.customer_id = u.user_id
@@ -38,7 +38,7 @@ $sql .= " ORDER BY b.$sort DESC";
 
 $stmt = $conn->prepare($sql);
 foreach ($params as $k=>$v) $stmt->bindValue($k, $v);
-$stmt->execute(); // Line 37 where the error occurred
+$stmt->execute(); 
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!doctype html>

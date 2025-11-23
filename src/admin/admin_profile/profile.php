@@ -14,13 +14,13 @@ if (!$user || $user["role"] !== "admin") {
     die("No logged-in admin found.");
 }
 
-$userId = $user["id"];
+$userId = $user["user_id"];
 
 
 $db = new Database();
 $conn = $db->connect();
 
-$stmt = $conn->prepare("SELECT * FROM users WHERE id = :id AND role = 'admin'");
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = :id AND role = 'admin'");
 $stmt->execute(['id' => $userId]);
 $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -47,7 +47,8 @@ if (!$admin) {
         <div class="profile-info">
             <p><strong>Name:</strong> <?= htmlspecialchars($admin['name']) ?></p>
             <p><strong>Email:</strong> <?= htmlspecialchars($admin['email']) ?></p>
-            <p><strong>Joined:</strong> <?= htmlspecialchars(date("Y-m-d", strtotime($admin['created_at']))) ?></p>
+            <p><strong>Phone Number:</strong> <?= htmlspecialchars($admin['phone_no']) ?></p>
+            <p><strong>Joined:</strong> <?= htmlspecialchars(date("Y-m-d", strtotime($admin['join_date']))) ?></p>
         </div>
 
         <div class="profile-actions">

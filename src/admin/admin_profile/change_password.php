@@ -15,7 +15,7 @@ if (!$user || $user["role"] !== "admin") {
     die("No logged-in admin found.");
 }
 
-$userId = $user["id"];
+$userId = $user["user_id"];
 
 
 $db = new Database();
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $old = $_POST['old_password'];
     $new = $_POST['new_password'];
 
-    $stmt = $conn->prepare("SELECT password FROM users WHERE id = :id");
+    $stmt = $conn->prepare("SELECT password FROM users WHERE user_id = :id");
     $stmt->execute(['id' => $userId]);
     $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "Old password is incorrect!";
     } else {
         $hashed = password_hash($new, PASSWORD_DEFAULT);
-        $update = $conn->prepare("UPDATE users SET password = :p WHERE id = :id");
+        $update = $conn->prepare("UPDATE users SET password = :p WHERE user_id = :id");
         $update->execute(['p' => $hashed, 'id' => $userId]);
         $message = "Password updated successfully!";
     }

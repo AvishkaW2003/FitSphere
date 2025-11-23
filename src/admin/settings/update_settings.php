@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../includes/db.php';
 require_once __DIR__ . '/../../../includes/middleware/AuthMiddleware.php';
+
 AuthMiddleware::requireRole('admin');
 
 use FitSphere\Database\Database;
@@ -8,27 +9,31 @@ use FitSphere\Database\Database;
 $db = new Database();
 $conn = $db->connect();
 
-// Fetch settings row ID
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: settings.php");
+    exit;
+}
+
+// Get setting row id
 $stmt = $conn->query("SELECT setting_id FROM settings LIMIT 1");
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 $settingId = $row['setting_id'];
 
-$siteName = $_POST['site_name'];
-$deposit = $_POST['deposit_percentage'];
-$lateFee = $_POST['late_fee_percentage'];
-$email = $_POST['contact_email'];
+$siteName = trim($_POST['site_name']);
+$deposit = trim($_POST['deposit_percentage']);
+$lateFee = trim($_POST['late_fee_percentage']);
+$email = trim($_POST['contact_email']);
 
 $logoPath = null;
 
-// If a new logo is uploaded
-if (!empty($_FILES['logo']['name'])) {
+// Handle Logo Upload
+if (!empty($_FILES['logo']['name']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
 
     $uploadDir = __DIR__ . "/../../../uploads/site_logo/";
-    if (!is_dir($uploadDir)) {
-        mkdir($uploadDir, 0777, true);
-    }
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
 
-    $fileName = "site_logo_" . time() . ".png";
+    $ext = pathinfo($_FILES['logo']['name'], PATHINFO_EXTENSION);
+    $fileName = "site_logo_" . time() . "." . $ext;
     $target = $uploadDir . $fileName;
 
     if (move_uploaded_file($_FILES['logo']['tmp_name'], $target)) {
@@ -37,7 +42,8 @@ if (!empty($_FILES['logo']['name'])) {
 }
 
 if ($logoPath) {
-    $update = $conn->prepare("
+    // Update with logo
+    $query = "
         UPDATE settings SET 
             site_name = :n,
             deposit_percentage = :d,
@@ -46,18 +52,20 @@ if ($logoPath) {
             logo_path = :logo,
             updated_at = NOW()
         WHERE setting_id = :id
-    ");
+    ";
 
-    $update->execute([
-        "n" => $siteName,
-        "d" => $deposit,
-        "l" => $lateFee,
-        "e" => $email,
-        "logo" => $logoPath,
-        "id" => $settingId
+    $conn->prepare($query)->execute([
+        ':n' => $siteName,
+        ':d' => $deposit,
+        ':l' => $lateFee,
+        ':e' => $email,
+        ':logo' => $logoPath,
+        ':id' => $settingId
     ]);
+
 } else {
-    $update = $conn->prepare("
+    // Update without changing logo
+    $query = "
         UPDATE settings SET 
             site_name = :n,
             deposit_percentage = :d,
@@ -65,17 +73,16 @@ if ($logoPath) {
             contact_email = :e,
             updated_at = NOW()
         WHERE setting_id = :id
-    ");
+    ";
 
-    $update->execute([
-        "n" => $siteName,
-        "d" => $deposit,
-        "l" => $lateFee,
-        "e" => $email,
-        "id" => $settingId
+    $conn->prepare($query)->execute([
+        ':n' => $siteName,
+        ':d' => $deposit,
+        ':l' => $lateFee,
+        ':e' => $email,
+        ':id' => $settingId
     ]);
 }
 
 header("Location: settings.php?success=1");
 exit;
-?>

@@ -25,16 +25,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $new_status = 'Cancelled';
 
     // Use PDO syntax since your previous code showed PDO
-    $stmt = $conn->prepare("UPDATE bookings SET status = ? WHERE booking_id = ?");
-    $result = $stmt->execute([$new_status, $booking_id]);
+    $stmt = $conn->prepare("UPDATE bookings SET status = ? WHERE booking_id = ? AND customer_id = ?");
+    // CRITICAL: Ensure the user owns the booking they are canceling
+    $result = $stmt->execute([$new_status, $booking_id, $customer_id]);
 
     // Clear buffer just in case
     ob_clean();
 
     if ($result) {
-        echo json_encode(['status' => 'success']);
+        echo json_encode(['status' => 'success', 'message' => 'Booking cancelled successfully.']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Update failed']);
+        echo json_encode(['status' => 'error', 'message' => 'Update failed or booking not found.']);
     }
 
     exit; // <--- CRITICAL: This stops the Header from loading below
@@ -43,7 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // 3. NOW LOAD THE HEADER (Only happens if we didn't exit above)
 include '../../includes/header.php';
 
-// SQL Query to fetch all necessary booking and product details
+// Filter logic based on status query parameter
+$statusFilter = $_GET['status'] ?? 'All';
+
 $sql = "
     SELECT 
         b.booking_id, 
@@ -65,17 +68,25 @@ $sql = "
         product_styles ps ON pi.style_id = ps.style_id
     WHERE 
         b.customer_id = ?
-    ORDER BY 
-        b.created_at DESC
 ";
+
+$params = [$customer_id];
+
+if ($statusFilter !== 'All') {
+    // Basic sanitization on status filter
+    $allowedStatuses = ['Active', 'Returned', 'Cancelled', 'Overdue', 'Pending', 'Upcoming'];
+    if (in_array($statusFilter, $allowedStatuses)) {
+        $sql .= " AND b.status = ?";
+        $params[] = $statusFilter;
+    }
+}
+
+$sql .= " ORDER BY b.created_at DESC";
+
 
 // 2. PDO Preparation and Execution
 $stmt = $conn->prepare($sql);
-
-// Bind the customer_id (PDO uses 1-based index or named parameters)
-$stmt->bindParam(1, $customer_id, PDO::PARAM_INT);
-
-$stmt->execute();
+$stmt->execute($params);
 
 // Fetch all results (PDO method - replaces get_result() and fetch_assoc() loop)
 $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -95,10 +106,42 @@ $stmt = null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Bookings | FitSphere</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
     <style>
-        /* Your existing CSS styles */
+        /* CSS for Layout Fix */
+        #main-content-wrapper {
+            /* This assumes the header is around 4rem (64px) tall and fixed, 
+               so we push the content down by about 100px. */
+            padding-top: 6rem; 
+            min-height: 100vh;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        /* Existing Styles */
         .card {
             margin: auto;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
@@ -178,6 +221,12 @@ $stmt = null;
             text-decoration: none;
             font-size: 18px;
             font-weight: 500;
+            /* Highlight active filter */
+        }
+        
+        .nav-link.active-filter {
+            color: #FFC107;
+            border-bottom: 2px solid #FFC107;
         }
 
         .nav-link:hover {
@@ -204,7 +253,7 @@ $stmt = null;
         @media (max-width: 770px) {
 
             .card {
-                width: 70% !important;
+                width: 95% !important;
             }
 
             .imageAndDetails {
@@ -273,147 +322,209 @@ $stmt = null;
     </style>
 </head>
 
-<body style="margin-top: 8rem;">
-
-    <h1>My Bookings</h1>
-
-
-
-    <div>
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link " href="?status=All">All</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="?status=Active">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="?status=Returned">Returned</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="?status=Cancelled">Cancelled</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="?status=Overdue">Overdue</a>
-            </li>
-        </ul>
+<body>
+    <!-- Custom Modal Structure (Replaces alert/confirm) -->
+    <div id="custom-modal" class="modal-overlay" onclick="closeModal(event)">
+        <div class="modal-content">
+            <h5 id="modal-title" class="mb-3">Confirmation</h5>
+            <p id="modal-message">Are you sure?</p>
+            <div id="modal-actions">
+                <!-- Buttons injected by JS based on type -->
+            </div>
+        </div>
     </div>
 
-    <?php if (empty($bookings)): ?>
-        <p class="text-center mt-5">You have no current or past bookings.</p>
-    <?php else: ?>
-        <?php foreach ($bookings as $booking):
-            $card_id = '';
-            $item_class = '';
-            $button_html = '';
-            $extra_detail_html = '';
-            $bookingId = $booking['booking_id'];
 
-            // Calculate Rent Fee (Total Price in DB is often Rent + Deposit)
-            $rent_fee = $booking['total_price'] - $booking['deposit'];
+    <div id="main-content-wrapper" class="container">
+        
+        <h1 class="mb-5">My Bookings</h1>
 
-            // Determine styling and actions based on status
-            switch ($booking['status']) {
-                case 'Returned':
-                    $card_id = 'id="card2"';
-                    $item_class = 'color1';
-                    $extra_detail_html = '
-                        <ul class="list-group list-group-horizontal">
-              <li class="list-group-item ' . $item_class . '">Deposit Refunded :</li>
-              <li class="list-group-item ' . $item_class . '">Rs.' . number_format($booking['deposit'], 2) . '</li>
-            </ul>';
-                    break;
-                case 'Overdue':
-                case 'Cancelled':
-                    $card_id = 'id="card3"';
-                    $item_class = 'color2';
-                    if ($booking['late_fee'] > 0) {
+        <div>
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'All' ? 'active-filter' : '' ?>" href="?status=All">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'Active' ? 'active-filter' : '' ?>" href="?status=Active">Active</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'Returned' ? 'active-filter' : '' ?>" href="?status=Returned">Returned</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'Cancelled' ? 'active-filter' : '' ?>" href="?status=Cancelled">Cancelled</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'Overdue' ? 'active-filter' : '' ?>" href="?status=Overdue">Overdue</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $statusFilter === 'Upcoming' ? 'active-filter' : '' ?>" href="?status=Upcoming">Upcoming</a>
+                </li>
+            </ul>
+        </div>
+
+        <?php if (empty($bookings)): ?>
+            <p class="text-center mt-5">You have no current or past bookings that match the filter (<?= htmlspecialchars($statusFilter) ?>).</p>
+        <?php else: ?>
+            <?php foreach ($bookings as $booking):
+                $card_id = '';
+                $item_class = '';
+                $button_html = '';
+                $extra_detail_html = '';
+                $bookingId = $booking['booking_id'];
+
+                // Calculate Rent Fee (Total Price in DB is often Rent + Deposit)
+                // Assuming 'total_price' is the full amount paid (Rent + Deposit)
+                $rent_fee = $booking['total_price'] - $booking['deposit'];
+
+                // Determine styling and actions based on status
+                switch ($booking['status']) {
+                    case 'Returned':
+                        $card_id = 'id="card2"';
+                        $item_class = 'color1';
+                        // Display refund info if available
+                        $refund_amount = $booking['refund'] !== null ? $booking['refund'] : $booking['deposit'];
                         $extra_detail_html = '
                             <ul class="list-group list-group-horizontal">
-                  <li class="list-group-item ' . $item_class . '">Late Fee :</li>
-                  <li class="list-group-item ' . $item_class . '">Rs.' . number_format($booking['late_fee'], 2) . '</li>
-                </ul>';
-                    }
-                    break;
-                case 'Active':
-                case 'Upcoming':
-                default:
-                    // Default style (no special background color)
-                    $button_html = '<button type="button" class="btn btn-danger" onclick="cancelBooking(' . $bookingId . ')">Cancel</button>';
-                    $item_class = '';
-                    break;
-            }
-        ?>
-            <div class="card w-75 mb-3" <?= $card_id ?>>
-                <div class="card-body">
-                    <div class="titleAndDate">
-                        <h5 class="card-title"><?= htmlspecialchars($booking['product_name']) ?> (Size: <?= htmlspecialchars($booking['size']) ?>)</h5>
-                        <p><?= htmlspecialchars($booking['start_date']) ?> - <?= htmlspecialchars($booking['end_date']) ?></p>
-                    </div>
-
-                    <div class="imageAndDetails">
-
-                        <img src="../../assets/images/suits/<?= htmlspecialchars($booking['product_image']) ?>" class="rounded float-start" id="clothImage" alt="<?= htmlspecialchars($booking['product_name']) ?>">
-
-                        <div class="details">
-                            <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item <?= $item_class ?>">Rent Fee :</li>
-                                <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($rent_fee, 2) ?></li>
-                            </ul>
-                            <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item <?= $item_class ?>">Deposit :</li>
-                                <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($booking['deposit'], 2) ?></li>
-                            </ul>
-                            <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item <?= $item_class ?>">Total Price :</li>
-                                <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($booking['total_price'], 2) ?></li>
-                            </ul>
-
-                            <?= $extra_detail_html ?>
-
-                            <ul class="list-group list-group-horizontal">
-                                <li class="list-group-item <?= $item_class ?>">Status :</li>
-                                <li class="list-group-item <?= $item_class ?>"><?= htmlspecialchars($booking['status'] ?: 'UNKNOWN') ?></li>
-                            </ul>
+                                <li class="list-group-item ' . $item_class . '">Refund Amount :</li>
+                                <li class="list-group-item ' . $item_class . '">Rs.' . number_format($refund_amount, 2) . '</li>
+                            </ul>';
+                        break;
+                    case 'Overdue':
+                    case 'Cancelled':
+                        $card_id = 'id="card3"';
+                        $item_class = 'color2';
+                        if ($booking['late_fee'] > 0) {
+                            $extra_detail_html = '
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item ' . $item_class . '">Late Fee :</li>
+                                    <li class="list-group-item ' . $item_class . '">Rs.' . number_format($booking['late_fee'], 2) . '</li>
+                                </ul>';
+                        }
+                        break;
+                    case 'Active':
+                    case 'Upcoming':
+                    case 'Pending':
+                    default:
+                        // Default style (no special background color)
+                        $button_html = '<button type="button" class="btn btn-danger" onclick="showConfirmModal(' . $bookingId . ')">Cancel Booking</button>';
+                        $item_class = '';
+                        break;
+                }
+            ?>
+                <div class="card w-75 mb-3" <?= $card_id ?>>
+                    <div class="card-body">
+                        <div class="titleAndDate">
+                            <h5 class="card-title"><?= htmlspecialchars($booking['product_name']) ?> (Size: <?= htmlspecialchars($booking['size']) ?>)</h5>
+                            <p>Booking ID: #<?= $bookingId ?></p>
                         </div>
-                    </div>
-                    <?= $button_html ?>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+                        <p class="text-muted text-end"><?= htmlspecialchars($booking['start_date']) ?> to <?= htmlspecialchars($booking['end_date']) ?></p>
 
+                        <div class="imageAndDetails">
+
+                            <img src="../../assets/images/suits/<?= htmlspecialchars($booking['product_image']) ?>" class="rounded float-start" id="clothImage" alt="<?= htmlspecialchars($booking['product_name']) ?>" onerror="this.onerror=null;this.src='https://placehold.co/80x100/CCCCCC/333333?text=No+Image';">
+
+                            <div class="details">
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item <?= $item_class ?>">Rental Fee :</li>
+                                    <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($rent_fee, 2) ?></li>
+                                </ul>
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item <?= $item_class ?>">Deposit Paid :</li>
+                                    <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($booking['deposit'], 2) ?></li>
+                                </ul>
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item <?= $item_class ?>">Total Paid :</li>
+                                    <li class="list-group-item <?= $item_class ?>">Rs.<?= number_format($booking['total_price'], 2) ?></li>
+                                </ul>
+
+                                <?= $extra_detail_html ?>
+
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item <?= $item_class ?>">Status :</li>
+                                    <li class="list-group-item <?= $item_class ?>"><strong><?= htmlspecialchars($booking['status'] ?: 'UNKNOWN') ?></strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <?= $button_html ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
+    </div> <!-- End of main-content-wrapper -->
 
 </body>
 <script>
-    function cancelBooking(id) {
-        if (confirm("Are you sure you want to cancel Booking #" + id + "?")) {
+    // --- CUSTOM MODAL IMPLEMENTATION (Replaces alert/confirm) ---
 
-            let formData = new FormData();
-            formData.append('action', 'cancel_booking'); // Matches the PHP check
-            formData.append('booking_id', id);
+    const modal = document.getElementById('custom-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMessage = document.getElementById('modal-message');
+    const modalActions = document.getElementById('modal-actions');
 
-            // fetch(window.location.href) posts to the CURRENT page
-            fetch(window.location.href, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert("Booking Cancelled!");
-                        location.reload(); // Refresh to see changes
-                    } else {
-                        alert("Error: " + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // If you get this error, it usually means the PHP 'exit' was forgotten
-                    // and the response contains HTML instead of JSON.
-                    alert("Failed to process request.");
-                });
+    function showModal(title, message, actionsHtml) {
+        modalTitle.textContent = title;
+        modalMessage.textContent = message;
+        modalActions.innerHTML = actionsHtml;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal(event) {
+        // Only close if clicking the background, not the modal content itself
+        if (event.target === modal) {
+            modal.style.display = 'none';
         }
+    }
+
+    function closeMessageModal() {
+        modal.style.display = 'none';
+    }
+
+    // Function to replace JS confirm()
+    function showConfirmModal(bookingId) {
+        const title = "Confirm Cancellation";
+        const message = "Are you sure you want to cancel Booking #" + bookingId + "? This action cannot be undone.";
+        const actionsHtml = `
+            <button class="btn btn-secondary me-2" onclick="closeMessageModal()">No, Keep it</button>
+            <button class="btn btn-danger" onclick="processCancellation(${bookingId})">Yes, Cancel</button>
+        `;
+        showModal(title, message, actionsHtml);
+    }
+
+    // Function to replace JS alert()
+    function showMessageModal(title, message, reload = false) {
+        const actionsHtml = `
+            <button class="btn btn-primary" onclick="${reload ? 'location.reload()' : 'closeMessageModal()'}">OK</button>
+        `;
+        showModal(title, message, actionsHtml);
+    }
+    
+    function processCancellation(id) {
+        // Close the confirmation modal first
+        modal.style.display = 'none';
+
+        let formData = new FormData();
+        formData.append('action', 'cancel_booking');
+        formData.append('booking_id', id);
+
+        fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    // Use custom message box for success
+                    showMessageModal("Success", data.message || "Booking successfully cancelled.", true);
+                } else {
+                    // Use custom message box for error
+                    showMessageModal("Error", data.message || "An unknown error occurred during cancellation.", false);
+                }
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                showMessageModal("Fatal Error", "Failed to connect to the server or process request.", false);
+            });
     }
 </script>
 

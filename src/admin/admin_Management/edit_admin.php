@@ -10,23 +10,41 @@ use FitSphere\Database\Database;
 $database = new Database();
 $conn = $database->connect();
 
+if (!isset($_GET['user_id'])) die("Missing ID");
 
-// Fetch admin by ID
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+$id = $_GET['user_id'];
 
-    $stmt = $conn->prepare("SELECT * FROM admins WHERE id = :id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-    $stmt->execute();
-    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt = $conn->prepare("SELECT * FROM users WHERE user_id = :id AND role='admin'");
+$stmt->execute([':id' => $id]);
+$admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$admin) {
-        die("Admin not found!");
-    }
-} else {
-    die("No admin ID provided!");
+if (!$admin) die("Admin not found");
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $role = "admin"; // fixed role
+    $phone = $_POST['phone_no'];
+
+    $update = $conn->prepare("
+        UPDATE users 
+        SET name=:name, email=:email, phone_no=:phone
+        WHERE user_id=:id
+    ");
+
+    $update->execute([
+        ':name' => $name,
+        ':email' => $email,
+        ':phone' => $phone,
+        ':id' => $id
+    ]);
+
+    header("Location: manage_admin.php?updated=1");
+    exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +62,7 @@ if (isset($_GET['id'])) {
     <div class="form-card">
       <form method="POST">
         <div class="mb-3">
-          <label class="form-label">Name</label>
+          <label class="form-label">Full Name</label>
           <input type="text" name="name" class="form-control" value="<?= $admin['name'] ?>" required>
         </div>
 
@@ -54,12 +72,17 @@ if (isset($_GET['id'])) {
         </div>
 
         <div class="mb-3">
+          <label class="form-label">Phone Number</label>
+          <input type="text" name="phone_no" class="form-control" value="<?= $admin['phone_no'] ?>" required>
+        </div>
+
+        <!-- <div class="mb-3">
           <label class="form-label">Role</label>
           <select name="role" class="form-select">
             <option value="Main Admin" <?= $admin['role'] == 'Main Admin' ? 'selected' : '' ?>>Main Admin</option>
             <option value="Sub Admin" <?= $admin['role'] == 'Sub Admin' ? 'selected' : '' ?>>Sub Admin</option>
           </select>
-        </div>
+        </div> -->
 
         <button type="submit" class="submit-btn">Save Changes</button>
         <button type="button" class="cancel-btn" onclick="window.location.href='manage_admin.php'">Cancel</button>

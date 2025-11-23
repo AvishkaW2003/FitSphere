@@ -6,7 +6,7 @@ The Blazer Rental App is a web-based platform that allows customers to browse bl
 It includes:
 
 👤 User login
-📅 Booking management
+📅 Booking management<br>
 💳 Payment processing
 🛠️ Admin panel
 
@@ -37,3 +37,4 @@ This system is designed as a complete and efficient solution for blazer rental b
 🛡️ Session-based login authentication
 🚧 Middleware-protected routes
 🧪 SQL injection prevention (prepared statements recommended)
+

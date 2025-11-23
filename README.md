@@ -1,41 +1,54 @@
-🧥 Blazer Rental Web Application 
-📌 Overview
+# 🧥 Blazer Rental Web Application 
 
-The Blazer Rental App is a web-based platform that allows customers to browse blazers, check availability, place rental bookings, and make payments online.
+## 📌 Overview
 
-It includes:
+The **Blazer Rental App** is a web-based platform that allows customers
+to browse blazers, check availability, place rental bookings, and make
+payments online.
 
-👤 User login
-📅 Booking management<br>
-💳 Payment processing
-🛠️ Admin panel
+It includes: - 👤 User login\
+- 📅 Booking management\
+- 💳 Payment processing\
+- 🛠️ Admin panel
 
-This system is designed as a complete and efficient solution for blazer rental businesses.
+This system is designed as a complete and efficient solution for blazer
+rental businesses.
 
-🚀 Features
-👤 User Features
+## 🚀 Features
 
-🔐 User registration & secure login
-🧥 View available blazers
-🎛️ Filter by size, price, and category
-👀 View blazer details
-📝 Make a booking (start date, end date, deposit)
-💳 Online payment form (Credit/Debit card)
-📜 View booking history
-❌ Cancel or view booking status
+### 👤 User Features
 
-🔐 Security
+-   🔐 User registration & secure login\
+-   🧥 View available blazers\
+-   🎛️ Filter by size, price, and category\
+-   👀 View blazer details\
+-   📝 Make a booking (start date, end date, deposit)\
+-   💳 Online payment form (Credit/Debit card)\
+-   📜 View booking history\
+-   ❌ Cancel or view booking status
 
-🧩 Role-based access control (User/Admin)
-🛡️ Session-based login authentication
-🚧 Middleware-protected routes
-🧪 SQL injection prevention (prepared statements recommended)
+### 🛠️ Admin Features
 
-🔐 Security
+-   ➕ Add / ✏️ Edit / ❌ Delete blazers\
+-   🖼️ Upload blazer images\
+-   📊 View all bookings\
+-   🔄 Update booking status\
+-   👥 Manage customers
 
-🧩 Role-based access control (User/Admin)
-🛡️ Session-based login authentication
-🚧 Middleware-protected routes
-🧪 SQL injection prevention (prepared statements recommended)
+### 🔐 Security
 
+-   🧩 Role-based access control (User/Admin)\
+-   🛡️ Session-based login authentication\
+-   🚧 Middleware-protected routes\
+-   🧪 SQL injection prevention
+
+## 🏗️ Tech Stack
+
+  ⚙️ Layer      🔧 Technologies
+  ------------- -----------------------
+  🎨 Frontend   HTML, CSS, Bootstrap
+  🧠 Backend    PHP
+  🗄️ Database   MySQL
+  🔐 Auth       Sessions + Middleware
+  💻 Server     XAMPP / Apache
 
